@@ -474,6 +474,126 @@ public class ServiceExample {
             addCriterion("UploadDate not between", value1, value2, "uploaddate");
             return (Criteria) this;
         }
+
+        public Criteria andParentidIsNull() {
+            addCriterion("ParentID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidIsNotNull() {
+            addCriterion("ParentID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidEqualTo(Integer value) {
+            addCriterion("ParentID =", value, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidNotEqualTo(Integer value) {
+            addCriterion("ParentID <>", value, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidGreaterThan(Integer value) {
+            addCriterion("ParentID >", value, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ParentID >=", value, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidLessThan(Integer value) {
+            addCriterion("ParentID <", value, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidLessThanOrEqualTo(Integer value) {
+            addCriterion("ParentID <=", value, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidIn(List<Integer> values) {
+            addCriterion("ParentID in", values, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidNotIn(List<Integer> values) {
+            addCriterion("ParentID not in", values, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidBetween(Integer value1, Integer value2) {
+            addCriterion("ParentID between", value1, value2, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andParentidNotBetween(Integer value1, Integer value2) {
+            addCriterion("ParentID not between", value1, value2, "parentid");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskIsNull() {
+            addCriterion("DirMask is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskIsNotNull() {
+            addCriterion("DirMask is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskEqualTo(Boolean value) {
+            addCriterion("DirMask =", value, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskNotEqualTo(Boolean value) {
+            addCriterion("DirMask <>", value, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskGreaterThan(Boolean value) {
+            addCriterion("DirMask >", value, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("DirMask >=", value, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskLessThan(Boolean value) {
+            addCriterion("DirMask <", value, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskLessThanOrEqualTo(Boolean value) {
+            addCriterion("DirMask <=", value, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskIn(List<Boolean> values) {
+            addCriterion("DirMask in", values, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskNotIn(List<Boolean> values) {
+            addCriterion("DirMask not in", values, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskBetween(Boolean value1, Boolean value2) {
+            addCriterion("DirMask between", value1, value2, "dirmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andDirmaskNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("DirMask not between", value1, value2, "dirmask");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

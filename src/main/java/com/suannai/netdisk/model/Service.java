@@ -15,13 +15,19 @@ public class Service {
 
     private Date uploaddate;
 
-    public Service(Integer id, Integer userid, String userfilename, Integer sysfilerecordid, Boolean status, Date uploaddate) {
+    private Integer parentid;
+
+    private Boolean dirmask;
+
+    public Service(Integer id, Integer userid, String userfilename, Integer sysfilerecordid, Boolean status, Date uploaddate, Integer parentid, Boolean dirmask) {
         this.id = id;
         this.userid = userid;
         this.userfilename = userfilename;
         this.sysfilerecordid = sysfilerecordid;
         this.status = status;
         this.uploaddate = uploaddate;
+        this.parentid = parentid;
+        this.dirmask = dirmask;
     }
 
     public Service() {
@@ -74,5 +80,21 @@ public class Service {
 
     public void setUploaddate(Date uploaddate) {
         this.uploaddate = uploaddate;
+    }
+
+    public Integer getParentid() {
+        return parentid;
+    }
+
+    public void setParentid(Integer parentid) {
+        this.parentid = parentid;
+    }
+
+    public Boolean getDirmask() {
+        return dirmask;
+    }
+
+    public void setDirmask(Boolean dirmask) {
+        this.dirmask = dirmask;
     }
 }
