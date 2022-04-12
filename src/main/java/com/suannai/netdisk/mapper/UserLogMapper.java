@@ -4,7 +4,9 @@ import com.suannai.netdisk.model.UserLog;
 import com.suannai.netdisk.model.UserLogExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface UserLogMapper {
     long countByExample(UserLogExample example);
 

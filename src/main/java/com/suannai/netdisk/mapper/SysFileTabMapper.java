@@ -4,7 +4,9 @@ import com.suannai.netdisk.model.SysFileTab;
 import com.suannai.netdisk.model.SysFileTabExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface SysFileTabMapper {
     long countByExample(SysFileTabExample example);
 

@@ -4,7 +4,9 @@ import com.suannai.netdisk.model.SuperUser;
 import com.suannai.netdisk.model.SuperUserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface SuperUserMapper {
     long countByExample(SuperUserExample example);
 
