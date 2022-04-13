@@ -34,31 +34,25 @@ public class MainSvrController {
     SysConfigService sysConfigService;
 
     @RequestMapping(value = "/listCur")
-    public List<Service> listCur(HttpSession session,HttpServletResponse response) throws IOException {
+    public List<Service> listCur(HttpSession session, HttpServletResponse response) throws IOException {
         List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
-        if(!sysConfigs.isEmpty())
-        {
+        if (!sysConfigs.isEmpty()) {
             User user = (User) session.getAttribute("user");
-            if(user!=null)
-            {
-                for(SysConfig sysConfig : sysConfigs)
-                {
-                    if(sysConfig.getName().equals("AllowListCur")&&sysConfig.getValue().equals("YES"))
-                    {
+            if (user != null) {
+                for (SysConfig sysConfig : sysConfigs) {
+                    if (sysConfig.getName().equals("AllowListCur") && sysConfig.getValue().equals("YES")) {
                         Service service = (Service) session.getAttribute("curService");
-                        if(service==null)
-                        {
+                        if (service == null) {
                             String curDir = (String) session.getAttribute("CurWorkDir");
-                            if(curDir!=null)
-                            {
-                                return mainSvrService.getChildren(user,curDir);
+                            if (curDir != null) {
+                                return mainSvrService.getChildren(user, curDir);
                             }
-                        }else {
-                            return mainSvrService.getChildren(user,service);
+                        } else {
+                            return mainSvrService.getChildren(user, service);
                         }
                     }
                 }
-            }else {
+            } else {
                 response.sendRedirect("/index.html");
             }
         }
@@ -67,19 +61,15 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/pwd")
-    public String GetPwd(HttpSession session,HttpServletResponse response) throws IOException {
+    public String GetPwd(HttpSession session, HttpServletResponse response) throws IOException {
         List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
-        if(!sysConfigs.isEmpty())
-        {
-            for(SysConfig sysConfig : sysConfigs)
-            {
-                if(sysConfig.getName().equals("AllowPwd")&&sysConfig.getValue().equals("YES"))
-                {
+        if (!sysConfigs.isEmpty()) {
+            for (SysConfig sysConfig : sysConfigs) {
+                if (sysConfig.getName().equals("AllowPwd") && sysConfig.getValue().equals("YES")) {
                     User user = (User) session.getAttribute("user");
-                    if(user!=null)
-                    {
+                    if (user != null) {
                         return (String) session.getAttribute("CurWorkDir");
-                    }else {
+                    } else {
                         response.sendRedirect("/index.html");
                     }
                 }
@@ -90,33 +80,26 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/getCurService")
-    public Service GetCurService(HttpSession session,HttpServletResponse response) throws IOException {
+    public Service GetCurService(HttpSession session, HttpServletResponse response) throws IOException {
         List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
-        if(!sysConfigs.isEmpty())
-        {
-            for(SysConfig sysConfig : sysConfigs)
-            {
-                if(sysConfig.getName().equals("AllowGetCurService")&&sysConfig.getValue().equals("YES"))
-                {
+        if (!sysConfigs.isEmpty()) {
+            for (SysConfig sysConfig : sysConfigs) {
+                if (sysConfig.getName().equals("AllowGetCurService") && sysConfig.getValue().equals("YES")) {
                     User user = (User) session.getAttribute("user");
-                    if(user!=null)
-                    {
+                    if (user != null) {
                         Service service = (Service) session.getAttribute("curService");
-                        if(service==null)
-                        {
+                        if (service == null) {
                             String curDir = (String) session.getAttribute("CurWorkDir");
-                            if(curDir!=null)
-                            {
-                                Service service1 = mainSvrService.getUserDirRecord(user,curDir);
-                                if(service1!=null)
-                                {
+                            if (curDir != null) {
+                                Service service1 = mainSvrService.getUserDirRecord(user, curDir);
+                                if (service1 != null) {
                                     return service1;
                                 }
                             }
-                        }else {
+                        } else {
                             return service;
                         }
-                    }else {
+                    } else {
                         response.sendRedirect("/index.html");
                     }
                 }
@@ -125,6 +108,7 @@ public class MainSvrController {
 
         return null;
     }
+
     @RequestMapping(value = "/cd")
     public Message changeDir(@RequestParam("where") String where, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
@@ -222,6 +206,28 @@ public class MainSvrController {
                         }
 
                         if (currentWorkService != null) {
+                            if (isDir) {
+                                //只是目录我们添加用户记录即可
+                                Service userService = new Service();
+                                userService.setUserid(user.getId());
+                                userService.setStatus(true);
+                                userService.setDirmask(true);
+                                userService.setUserfilename(file.getOriginalFilename());
+                                userService.setUploaddate(new Date());
+                                userService.setSysfilerecordid(-1);
+                                userService.setParentid(currentWorkService.getId());
+
+                                if (mainSvrService.addFile(userService)) {
+                                    message.setStatusCode(2000);
+                                    message.setErrorMsg("上传成功");
+                                    return message;
+                                }
+                                message.setStatusCode(5400);
+                                message.setErrorMsg("无法添加用户记录！");
+                                return message;
+
+                            }
+
                             SysFileTab sysFileTab = sysFileTabService.findByHash(filehash);
                             if (sysFileTab != null) {
                                 Service service = new Service();
@@ -252,66 +258,44 @@ public class MainSvrController {
 
                                 if (uploadPath != null) {
                                     if (!uploadPath.equals("")) {
-                                        if (!isDir) {
-                                            File dir = new File(uploadPath + file.getOriginalFilename());
-                                            if (!dir.exists()) {
-                                                dir.mkdirs();
-                                            }
+                                        File dir = new File(uploadPath + file.getOriginalFilename());
+                                        if (!dir.exists()) {
+                                            dir.mkdirs();
+                                        }
 
-                                            file.transferTo(dir);
+                                        file.transferTo(dir);
 
-                                            SysFileTab uploadFileTab = new SysFileTab();
-                                            uploadFileTab.setFilehash(filehash);
-                                            uploadFileTab.setFilename(file.getOriginalFilename());
-                                            uploadFileTab.setFilesize(file.getSize());
-                                            uploadFileTab.setInuse(true);
-                                            uploadFileTab.setLocation(uploadPath + file.getOriginalFilename());
+                                        SysFileTab uploadFileTab = new SysFileTab();
+                                        uploadFileTab.setFilehash(filehash);
+                                        uploadFileTab.setFilename(file.getOriginalFilename());
+                                        uploadFileTab.setFilesize(file.getSize());
+                                        uploadFileTab.setInuse(true);
+                                        uploadFileTab.setLocation(uploadPath + file.getOriginalFilename());
 
-                                            if (sysFileTabService.addRecord(uploadFileTab)) {
-                                                Service userService = new Service();
-                                                SysFileTab pointerRecord = sysFileTabService.findByHash(filehash);
-                                                if (pointerRecord != null) {
-                                                    userService.setUserid(user.getId());
-                                                    userService.setStatus(true);
-                                                    userService.setDirmask(false);
-                                                    userService.setUserfilename(file.getOriginalFilename());
-                                                    userService.setUploaddate(new Date());
-                                                    userService.setSysfilerecordid(pointerRecord.getId());
-                                                    userService.setParentid(currentWorkService.getId());
+                                        if (sysFileTabService.addRecord(uploadFileTab)) {
+                                            Service userService = new Service();
+                                            SysFileTab pointerRecord = sysFileTabService.findByHash(filehash);
+                                            if (pointerRecord != null) {
+                                                userService.setUserid(user.getId());
+                                                userService.setStatus(true);
+                                                userService.setDirmask(false);
+                                                userService.setUserfilename(file.getOriginalFilename());
+                                                userService.setUploaddate(new Date());
+                                                userService.setSysfilerecordid(pointerRecord.getId());
+                                                userService.setParentid(currentWorkService.getId());
 
-                                                    if (mainSvrService.addFile(userService)) {
-                                                        message.setStatusCode(2000);
-                                                        message.setErrorMsg("上传成功");
-                                                        return message;
-                                                    } else {
-                                                        message.setStatusCode(5400);
-                                                        message.setErrorMsg("无法添加用户记录！");
-                                                        return message;
-                                                    }
+                                                if (mainSvrService.addFile(userService)) {
+                                                    message.setStatusCode(2000);
+                                                    message.setErrorMsg("上传成功");
+                                                    return message;
                                                 } else {
-                                                    message.setStatusCode(5700);
-                                                    message.setErrorMsg("无法操作系统文件表");
+                                                    message.setStatusCode(5400);
+                                                    message.setErrorMsg("无法添加用户记录！");
                                                     return message;
                                                 }
-                                            }
-                                        }else {
-                                            //只是目录我们添加用户记录即可
-                                            Service userService = new Service();
-                                            userService.setUserid(user.getId());
-                                            userService.setStatus(true);
-                                            userService.setDirmask(true);
-                                            userService.setUserfilename(file.getOriginalFilename());
-                                            userService.setUploaddate(new Date());
-                                            userService.setSysfilerecordid(-1);
-                                            userService.setParentid(currentWorkService.getId());
-
-                                            if (mainSvrService.addFile(userService)) {
-                                                message.setStatusCode(2000);
-                                                message.setErrorMsg("上传成功");
-                                                return message;
                                             } else {
-                                                message.setStatusCode(5400);
-                                                message.setErrorMsg("无法添加用户记录！");
+                                                message.setStatusCode(5700);
+                                                message.setErrorMsg("无法操作系统文件表");
                                                 return message;
                                             }
                                         }
@@ -342,25 +326,19 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/download")
-    public void DownLoad(@RequestParam("recorid") int RecordID,HttpSession session,HttpServletResponse response) throws IOException {
+    public void DownLoad(@RequestParam("recorid") int RecordID, HttpSession session, HttpServletResponse response) throws IOException {
         List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
-        if(!sysConfigs.isEmpty())
-        {
-            for(SysConfig sysConfig : sysConfigs)
-            {
-                if(sysConfig.getName().equals("AllowDownload")&&sysConfig.getValue().equals("YES"))
-                {
+        if (!sysConfigs.isEmpty()) {
+            for (SysConfig sysConfig : sysConfigs) {
+                if (sysConfig.getName().equals("AllowDownload") && sysConfig.getValue().equals("YES")) {
                     User user = (User) session.getAttribute("user");
-                    if(user!=null)
-                    {
+                    if (user != null) {
                         Service service = mainSvrService.queryByID(RecordID);
-                        if(service!=null)
-                        {
+                        if (service != null) {
                             //判断是否是文件件，打包ZIP下载，如果不是直接读取文件流发送
-                            if(service.getDirmask())
-                            {
-                                
-                            }else {
+                            if (service.getDirmask()) {
+
+                            } else {
 
                             }
                         }
