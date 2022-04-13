@@ -4,6 +4,7 @@ import com.suannai.netdisk.dao.LoginRequstData;
 import com.suannai.netdisk.dao.Message;
 import com.suannai.netdisk.model.SysConfig;
 import com.suannai.netdisk.model.User;
+import com.suannai.netdisk.service.MainSvrService;
 import com.suannai.netdisk.service.SysConfigService;
 import com.suannai.netdisk.service.UserService;
 import com.suannai.netdisk.utils.IPUtils;
@@ -21,6 +22,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    MainSvrService mainSvrService;
 
     @Autowired
     SysConfigService sysConfigService;
