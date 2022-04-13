@@ -5,6 +5,7 @@ import com.suannai.netdisk.mapper.SysFileTabMapper;
 import com.suannai.netdisk.model.Service;
 import com.suannai.netdisk.model.ServiceExample;
 import com.suannai.netdisk.model.SysFileTab;
+import com.suannai.netdisk.model.SysFileTabExample;
 import com.suannai.netdisk.service.SysFileTabService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -45,5 +46,35 @@ public class SysFileTabServiceImpl implements SysFileTabService {
     @Override
     public boolean addRecord(SysFileTab sysFileTab) {
         return sysFileTabMapper.insert(sysFileTab) == 1;
+    }
+
+    @Override
+    public SysFileTab findByHash(String strHash) {
+        SysFileTabExample example = new SysFileTabExample();
+        SysFileTabExample.Criteria criteria = example.createCriteria();
+        criteria.andFilehashEqualTo(strHash);
+
+        List<SysFileTab> sysFileTabs = sysFileTabMapper.selectByExample(example);
+        if(!sysFileTabs.isEmpty())
+        {
+            return sysFileTabs.get(0);
+        }
+
+        return null;
+    }
+
+    @Override
+    public SysFileTab GetRoot() {
+        SysFileTabExample example = new SysFileTabExample();
+        SysFileTabExample.Criteria criteria = example.createCriteria();
+        criteria.andRootmaskEqualTo(true);
+
+        List<SysFileTab> sysFileTabs = sysFileTabMapper.selectByExample(example);
+        if(!sysFileTabs.isEmpty())
+        {
+            return sysFileTabs.get(0);
+        }
+
+        return null;
     }
 }

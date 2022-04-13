@@ -493,6 +493,66 @@ public class SysFileTabExample {
             addCriterion("InUse not between", value1, value2, "inuse");
             return (Criteria) this;
         }
+
+        public Criteria andRootmaskIsNull() {
+            addCriterion("RootMask is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskIsNotNull() {
+            addCriterion("RootMask is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskEqualTo(Boolean value) {
+            addCriterion("RootMask =", value, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskNotEqualTo(Boolean value) {
+            addCriterion("RootMask <>", value, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskGreaterThan(Boolean value) {
+            addCriterion("RootMask >", value, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("RootMask >=", value, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskLessThan(Boolean value) {
+            addCriterion("RootMask <", value, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskLessThanOrEqualTo(Boolean value) {
+            addCriterion("RootMask <=", value, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskIn(List<Boolean> values) {
+            addCriterion("RootMask in", values, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskNotIn(List<Boolean> values) {
+            addCriterion("RootMask not in", values, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskBetween(Boolean value1, Boolean value2) {
+            addCriterion("RootMask between", value1, value2, "rootmask");
+            return (Criteria) this;
+        }
+
+        public Criteria andRootmaskNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("RootMask not between", value1, value2, "rootmask");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

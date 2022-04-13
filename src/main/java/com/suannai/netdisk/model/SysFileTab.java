@@ -13,13 +13,16 @@ public class SysFileTab {
 
     private Boolean inuse;
 
-    public SysFileTab(Integer id, String filename, String filehash, String location, Long filesize, Boolean inuse) {
+    private Boolean rootmask;
+
+    public SysFileTab(Integer id, String filename, String filehash, String location, Long filesize, Boolean inuse, Boolean rootmask) {
         this.id = id;
         this.filename = filename;
         this.filehash = filehash;
         this.location = location;
         this.filesize = filesize;
         this.inuse = inuse;
+        this.rootmask = rootmask;
     }
 
     public SysFileTab() {
@@ -72,5 +75,13 @@ public class SysFileTab {
 
     public void setInuse(Boolean inuse) {
         this.inuse = inuse;
+    }
+
+    public Boolean getRootmask() {
+        return rootmask;
+    }
+
+    public void setRootmask(Boolean rootmask) {
+        this.rootmask = rootmask;
     }
 }

@@ -60,6 +60,7 @@ public class UserController {
                                 message.setErrorMsg("登录失败！用户名或密码不正确！或用户处于封禁状态！");
                             }
 
+                            session.setAttribute("CurWorkDir","/");
                             return message;
                         }
                     }
