@@ -68,12 +68,22 @@ public class MainSvrController {
 
     @RequestMapping(value = "/pwd")
     public String GetPwd(HttpSession session,HttpServletResponse response) throws IOException {
-        User user = (User) session.getAttribute("user");
-        if(user!=null)
+        List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
+        if(!sysConfigs.isEmpty())
         {
-            return (String) session.getAttribute("CurWorkDir");
-        }else {
-            response.sendRedirect("/index.html");
+            for(SysConfig sysConfig : sysConfigs)
+            {
+                if(sysConfig.getName().equals("AllowPwd")&&sysConfig.getValue().equals("YES"))
+                {
+                    User user = (User) session.getAttribute("user");
+                    if(user!=null)
+                    {
+                        return (String) session.getAttribute("CurWorkDir");
+                    }else {
+                        response.sendRedirect("/index.html");
+                    }
+                }
+            }
         }
 
         return null;
@@ -81,27 +91,38 @@ public class MainSvrController {
 
     @RequestMapping(value = "/getCurService")
     public Service GetCurService(HttpSession session,HttpServletResponse response) throws IOException {
-        User user = (User) session.getAttribute("user");
-        if(user!=null)
+        List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
+        if(!sysConfigs.isEmpty())
         {
-            Service service = (Service) session.getAttribute("curService");
-            if(service==null)
+            for(SysConfig sysConfig : sysConfigs)
             {
-                String curDir = (String) session.getAttribute("CurWorkDir");
-                if(curDir!=null)
+                if(sysConfig.getName().equals("AllowGetCurService")&&sysConfig.getValue().equals("YES"))
                 {
-                    Service service1 = mainSvrService.getUserDirRecord(user,curDir);
-                    if(service1!=null)
+                    User user = (User) session.getAttribute("user");
+                    if(user!=null)
                     {
-                        return service1;
+                        Service service = (Service) session.getAttribute("curService");
+                        if(service==null)
+                        {
+                            String curDir = (String) session.getAttribute("CurWorkDir");
+                            if(curDir!=null)
+                            {
+                                Service service1 = mainSvrService.getUserDirRecord(user,curDir);
+                                if(service1!=null)
+                                {
+                                    return service1;
+                                }
+                            }
+                        }else {
+                            return service;
+                        }
+                    }else {
+                        response.sendRedirect("/index.html");
                     }
                 }
-            }else {
-                return service;
             }
-        }else {
-            response.sendRedirect("/index.html");
         }
+
         return null;
     }
     @RequestMapping(value = "/cd")
