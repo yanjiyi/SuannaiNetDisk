@@ -94,12 +94,17 @@ public class MainSvrServiceImpl implements MainSvrService {
         criteria.andUseridEqualTo(user.getId());
         criteria.andParentidEqualTo(service.getId());
 
-        return null;
+        return serviceMapper.selectByExample(example);
     }
 
     @Override
     public List<Service> getChildren(User user, String curPath) {
-        return null;
+        Service userDirRecord = getUserDirRecord(user, curPath);
+
+        if(userDirRecord==null)
+            return null;
+
+        return getChildren(user,userDirRecord);
     }
 
     protected List<String> GetDirList(String Path)

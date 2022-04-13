@@ -34,10 +34,76 @@ public class MainSvrController {
     SysConfigService sysConfigService;
 
     @RequestMapping(value = "/listCur")
-    public Service listCur(HttpSession session) {
+    public List<Service> listCur(HttpSession session,HttpServletResponse response) throws IOException {
+        List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
+        if(!sysConfigs.isEmpty())
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                for(SysConfig sysConfig : sysConfigs)
+                {
+                    if(sysConfig.getName().equals("AllowListCur")&&sysConfig.getValue().equals("YES"))
+                    {
+                        Service service = (Service) session.getAttribute("curService");
+                        if(service==null)
+                        {
+                            String curDir = (String) session.getAttribute("CurWorkDir");
+                            if(curDir!=null)
+                            {
+                                return mainSvrService.getChildren(user,curDir);
+                            }
+                        }else {
+                            return mainSvrService.getChildren(user,service);
+                        }
+                    }
+                }
+            }else {
+                response.sendRedirect("/index.html");
+            }
+        }
+
         return null;
     }
 
+    @RequestMapping(value = "/pwd")
+    public String GetPwd(HttpSession session,HttpServletResponse response) throws IOException {
+        User user = (User) session.getAttribute("user");
+        if(user!=null)
+        {
+            return (String) session.getAttribute("CurWorkDir");
+        }else {
+            response.sendRedirect("/index.html");
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/getCurService")
+    public Service GetCurService(HttpSession session,HttpServletResponse response) throws IOException {
+        User user = (User) session.getAttribute("user");
+        if(user!=null)
+        {
+            Service service = (Service) session.getAttribute("curService");
+            if(service==null)
+            {
+                String curDir = (String) session.getAttribute("CurWorkDir");
+                if(curDir!=null)
+                {
+                    Service service1 = mainSvrService.getUserDirRecord(user,curDir);
+                    if(service1!=null)
+                    {
+                        return service1;
+                    }
+                }
+            }else {
+                return service;
+            }
+        }else {
+            response.sendRedirect("/index.html");
+        }
+        return null;
+    }
     @RequestMapping(value = "/cd")
     public Message changeDir(@RequestParam("where") String where, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
