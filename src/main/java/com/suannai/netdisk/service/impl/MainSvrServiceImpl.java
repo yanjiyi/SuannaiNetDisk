@@ -107,6 +107,11 @@ public class MainSvrServiceImpl implements MainSvrService {
         return getChildren(user,userDirRecord);
     }
 
+    @Override
+    public Service queryByID(int RecordID) {
+        return serviceMapper.selectByPrimaryKey(RecordID);
+    }
+
     protected List<String> GetDirList(String Path)
     {
         String[] list = Path.split("/");

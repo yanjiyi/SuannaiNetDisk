@@ -340,4 +340,35 @@ public class MainSvrController {
 
         return message;
     }
+
+    @RequestMapping(value = "/download")
+    public void DownLoad(@RequestParam("recorid") int RecordID,HttpSession session,HttpServletResponse response) throws IOException {
+        List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
+        if(!sysConfigs.isEmpty())
+        {
+            for(SysConfig sysConfig : sysConfigs)
+            {
+                if(sysConfig.getName().equals("AllowDownload")&&sysConfig.getValue().equals("YES"))
+                {
+                    User user = (User) session.getAttribute("user");
+                    if(user!=null)
+                    {
+                        Service service = mainSvrService.queryByID(RecordID);
+                        if(service!=null)
+                        {
+                            //判断是否是文件件，打包ZIP下载，如果不是直接读取文件流发送
+                            if(service.getDirmask())
+                            {
+
+                            }else {
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        response.sendRedirect("/error/DownLoadHasBeenDisable.html");
+    }
 }

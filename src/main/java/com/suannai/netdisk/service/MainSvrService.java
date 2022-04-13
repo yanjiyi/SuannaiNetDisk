@@ -12,4 +12,6 @@ public interface MainSvrService {
     Service getUserDirRecord(User user,String realPath);
     List<Service> getChildren(User user,Service service);
     List<Service> getChildren(User user,String curPath);
+
+    Service queryByID(int RecordID);
 }
