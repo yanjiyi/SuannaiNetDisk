@@ -33,6 +33,11 @@ public class MainSvrController {
     @Autowired
     SysConfigService sysConfigService;
 
+    @RequestMapping(value = "/listCur")
+    public Service listCur(HttpSession session) {
+        return null;
+    }
+
     @RequestMapping(value = "/cd")
     public Message changeDir(@RequestParam("where") String where, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
@@ -160,48 +165,71 @@ public class MainSvrController {
 
                                 if (uploadPath != null) {
                                     if (!uploadPath.equals("")) {
-                                        File dir = new File(uploadPath + file.getOriginalFilename());
-                                        if (!dir.exists()) {
-                                            dir.mkdirs();
-                                        }
+                                        if (!isDir) {
+                                            File dir = new File(uploadPath + file.getOriginalFilename());
+                                            if (!dir.exists()) {
+                                                dir.mkdirs();
+                                            }
 
-                                        file.transferTo(dir);
+                                            file.transferTo(dir);
 
-                                        SysFileTab uploadFileTab = new SysFileTab();
-                                        uploadFileTab.setFilehash(filehash);
-                                        uploadFileTab.setFilename(file.getOriginalFilename());
-                                        uploadFileTab.setFilesize(file.getSize());
-                                        uploadFileTab.setInuse(true);
-                                        uploadFileTab.setLocation(uploadPath + file.getOriginalFilename());
+                                            SysFileTab uploadFileTab = new SysFileTab();
+                                            uploadFileTab.setFilehash(filehash);
+                                            uploadFileTab.setFilename(file.getOriginalFilename());
+                                            uploadFileTab.setFilesize(file.getSize());
+                                            uploadFileTab.setInuse(true);
+                                            uploadFileTab.setLocation(uploadPath + file.getOriginalFilename());
 
-                                        if (sysFileTabService.addRecord(uploadFileTab)) {
-                                            Service userService = new Service();
-                                            SysFileTab pointerRecord = sysFileTabService.findByHash(filehash);
-                                            if (pointerRecord != null) {
-                                                userService.setUserid(user.getId());
-                                                userService.setStatus(true);
-                                                userService.setDirmask(isDir);
-                                                userService.setUserfilename(file.getOriginalFilename());
-                                                userService.setUploaddate(new Date());
-                                                userService.setSysfilerecordid(pointerRecord.getId());
-                                                userService.setParentid(currentWorkService.getId());
+                                            if (sysFileTabService.addRecord(uploadFileTab)) {
+                                                Service userService = new Service();
+                                                SysFileTab pointerRecord = sysFileTabService.findByHash(filehash);
+                                                if (pointerRecord != null) {
+                                                    userService.setUserid(user.getId());
+                                                    userService.setStatus(true);
+                                                    userService.setDirmask(false);
+                                                    userService.setUserfilename(file.getOriginalFilename());
+                                                    userService.setUploaddate(new Date());
+                                                    userService.setSysfilerecordid(pointerRecord.getId());
+                                                    userService.setParentid(currentWorkService.getId());
 
-                                                if (mainSvrService.addFile(userService)) {
-                                                    message.setStatusCode(2000);
-                                                    message.setErrorMsg("上传成功");
-                                                    return message;
+                                                    if (mainSvrService.addFile(userService)) {
+                                                        message.setStatusCode(2000);
+                                                        message.setErrorMsg("上传成功");
+                                                        return message;
+                                                    } else {
+                                                        message.setStatusCode(5400);
+                                                        message.setErrorMsg("无法添加用户记录！");
+                                                        return message;
+                                                    }
                                                 } else {
-                                                    message.setStatusCode(5400);
-                                                    message.setErrorMsg("无法添加用户记录！");
+                                                    message.setStatusCode(5700);
+                                                    message.setErrorMsg("无法操作系统文件表");
                                                     return message;
                                                 }
+                                            }
+                                        }else {
+                                            //只是目录我们添加用户记录即可
+                                            Service userService = new Service();
+                                            userService.setUserid(user.getId());
+                                            userService.setStatus(true);
+                                            userService.setDirmask(true);
+                                            userService.setUserfilename(file.getOriginalFilename());
+                                            userService.setUploaddate(new Date());
+                                            userService.setSysfilerecordid(-1);
+                                            userService.setParentid(currentWorkService.getId());
+
+                                            if (mainSvrService.addFile(userService)) {
+                                                message.setStatusCode(2000);
+                                                message.setErrorMsg("上传成功");
+                                                return message;
                                             } else {
-                                                message.setStatusCode(5700);
-                                                message.setErrorMsg("无法操作系统文件表");
+                                                message.setStatusCode(5400);
+                                                message.setErrorMsg("无法添加用户记录！");
                                                 return message;
                                             }
                                         }
                                     }
+
                                 } else {
                                     message.setStatusCode(5300);
                                     message.setErrorMsg("管理员未配置上传存储路径！无法上传文件！");

@@ -87,6 +87,21 @@ public class MainSvrServiceImpl implements MainSvrService {
         return null;
     }
 
+    @Override
+    public List<Service> getChildren(User user, Service service) {
+        ServiceExample example = new ServiceExample();
+        ServiceExample.Criteria criteria = example.createCriteria();
+        criteria.andUseridEqualTo(user.getId());
+        criteria.andParentidEqualTo(service.getId());
+
+        return null;
+    }
+
+    @Override
+    public List<Service> getChildren(User user, String curPath) {
+        return null;
+    }
+
     protected List<String> GetDirList(String Path)
     {
         String[] list = Path.split("/");
