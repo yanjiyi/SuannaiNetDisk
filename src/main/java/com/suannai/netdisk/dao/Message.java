@@ -31,7 +31,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "UserCtlMessage{" +
+        return "Message{" +
                 "StatusCode=" + StatusCode +
                 ", operation='" + operation + '\'' +
                 ", errorMsg='" + errorMsg + '\'' +

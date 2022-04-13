@@ -67,11 +67,11 @@ public class UserController {
                     message.setErrorMsg("已被管理员禁止登录！");
                     message.setStatusCode(5500);
                 }
-            }else
-            {
-                message.setErrorMsg("无法验证验证码！");
-                message.setStatusCode(3300);
             }
+        }else
+        {
+            message.setErrorMsg("无法验证验证码！");
+            message.setStatusCode(3300);
         }
 
         return message;
