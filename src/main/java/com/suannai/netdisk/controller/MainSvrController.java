@@ -71,7 +71,14 @@ public class MainSvrController {
                         }
 
                         //Find Current Work Service
-                        Service currentWorkService = mainSvrService.getUserDirRecord(user,currentWorkDir);
+
+//                        Service currentWorkService = mainSvrService.getUserDirRecord(user,currentWorkDir);
+                        Service currentWorkService = (Service)session.getAttribute("curService");
+                        if(currentWorkService==null)
+                        {
+                            currentWorkService = mainSvrService.getUserDirRecord(user,currentWorkDir);
+                        }
+
                         if(currentWorkService!=null)
                         {
                             SysFileTab sysFileTab = sysFileTabService.findByHash(filehash);
