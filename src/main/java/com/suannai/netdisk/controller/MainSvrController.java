@@ -231,7 +231,7 @@ public class MainSvrController {
                             SysFileTab sysFileTab = sysFileTabService.findByHash(filehash);
                             if (sysFileTab != null) {
                                 Service service = new Service();
-                                service.setDirmask(isDir);
+                                service.setDirmask(false);
                                 service.setParentid(currentWorkService.getId());
                                 service.setSysfilerecordid(sysFileTab.getId());
                                 service.setUploaddate(new Date());
