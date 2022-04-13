@@ -33,6 +33,9 @@ public class MainSvrController {
     @Autowired
     SysConfigService sysConfigService;
 
+    @RequestMapping(value = "/cd")
+    public Message changeDir()
+
     @RequestMapping(value = "/upload")
     public Message upload(@RequestParam("file")MultipartFile file, @RequestParam("fileHash") String filehash ,@RequestParam("isDir") Boolean isDir, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
