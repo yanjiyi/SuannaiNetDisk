@@ -1,13 +1,9 @@
 package com.suannai.netdisk.controller;
 
 import com.suannai.netdisk.dao.Message;
-import com.suannai.netdisk.model.Service;
-import com.suannai.netdisk.model.SysConfig;
-import com.suannai.netdisk.model.SysFileTab;
-import com.suannai.netdisk.model.User;
-import com.suannai.netdisk.service.MainSvrService;
-import com.suannai.netdisk.service.SysConfigService;
-import com.suannai.netdisk.service.SysFileTabService;
+import com.suannai.netdisk.dao.ShareRequestData;
+import com.suannai.netdisk.model.*;
+import com.suannai.netdisk.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,9 +15,9 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -32,6 +28,12 @@ public class MainSvrController {
 
     @Autowired
     MainSvrService mainSvrService;
+
+    @Autowired
+    TaskTypeService taskTypeService;
+
+    @Autowired
+    TaskService taskService;
 
     @Autowired
     SysConfigService sysConfigService;
@@ -413,5 +415,165 @@ public class MainSvrController {
                 }
             }
         }
+    }
+
+    @RequestMapping(value = "/share")
+    public Message Shader(ShareRequestData requestData, HttpSession session, HttpServletResponse response) throws IOException {
+        Message message = new Message();
+
+        List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
+        if(sysConfigs.isEmpty())
+        {
+            message.setErrorMsg("已被管理员禁止分享功能！");
+            message.setStatusCode(5500);
+        }else {
+            for(SysConfig sysConfig : sysConfigs)
+            {
+                if(sysConfig.getName().equals("AllowShare")&&sysConfig.getValue().equals("YES"))
+                {
+                    User user = (User) session.getAttribute("user");
+                    if(user!=null)
+                    {
+                        int shareType = taskTypeService.GetTaskID("Share");
+                        if(shareType>0)
+                        {
+
+                        }else {
+                            message.setStatusCode(5100);
+                            message.setErrorMsg("无效事务类型！");
+                        }
+
+                        Task task = new Task();
+                        task.setIdle(true);
+                        task.setTaskstatus(false);
+                        task.setUserid(user.getId());
+                        task.setAdditional(requestData.getService().getId());
+                        task.setDate(new Date());
+                        task.setTargetid(requestData.getUserid());
+                        task.setTasktype(shareType);
+
+                        if(taskService.createTask(task))
+                        {
+                            message.setStatusCode(2000);
+                            message.setErrorMsg("发起分享成功！");
+                        }
+                        else {
+                            message.setStatusCode(5200);
+                            message.setErrorMsg("发起分享失败！");
+                        }
+                    }else {
+                        response.sendRedirect("/index.html");
+                    }
+                }
+            }
+
+            message.setErrorMsg("已被管理员禁止分享功能！");
+            message.setStatusCode(5500);
+        }
+
+        return message;
+    }
+
+    @RequestMapping(value = "/acceptShare")
+    public Message acceptShare(@RequestParam("taskid") int taskid,HttpSession session,HttpServletResponse response) throws IOException {
+        Message message = new Message();
+
+        List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
+        if(sysConfigs.isEmpty())
+        {
+            message.setStatusCode(5500);
+            message.setErrorMsg("已被管理员禁止接受分享功能！");
+        }else {
+            for(SysConfig sysConfig : sysConfigs)
+            {
+                if(sysConfig.getName().equals("AllowAcceptShare")&&sysConfig.getValue().equals("YES"))
+                {
+                    User user = (User) session.getAttribute("user");
+                    if(user!=null)
+                    {
+                        Task task = taskService.queryByID(taskid);
+                        if(!Objects.equals(task.getTargetid(), user.getId()))
+                        {
+                            message.setStatusCode(5200);
+                            message.setErrorMsg("不是当前用户事务！拒绝访问！");
+                            return message;
+                        }
+
+                        if(task.getTasktype()==taskTypeService.GetTaskID("Share"))
+                        {
+                            Service service = mainSvrService.queryByID(task.getAdditional());
+                            if(service!=null)
+                            {
+                                Service curWorkDir = (Service) session.getAttribute("curService");
+                                if(curWorkDir!=null)
+                                {
+                                    if(mainSvrService.copyService(service,user,curWorkDir))
+                                    {
+                                        message.setStatusCode(2000);
+                                        message.setErrorMsg("接受成功！");
+
+                                        task.setTaskstatus(true);
+                                        taskService.updateTask(task);
+//                                        task.setIdle(false);
+                                        taskService.lockTask(task);
+
+                                        return message;
+
+                                    }else {
+                                        message.setStatusCode(5700);
+                                        message.setErrorMsg("更新用户记录失败！");
+                                        return message;
+                                    }
+                                }else {
+                                    curWorkDir = mainSvrService.getUserDirRecord(user,(String)session.getAttribute("CurWorkDir"));
+                                    if(curWorkDir!=null)
+                                    {
+                                        if(mainSvrService.copyService(service,user,curWorkDir))
+                                        {
+                                            if(mainSvrService.copyService(service,user,curWorkDir))
+                                            {
+                                                message.setStatusCode(2000);
+                                                message.setErrorMsg("接受成功！");
+
+                                                task.setTaskstatus(true);
+                                                taskService.updateTask(task);
+//                                              task.setIdle(false);
+                                                taskService.lockTask(task);
+
+                                                return message;
+
+                                            }else {
+                                                message.setStatusCode(5700);
+                                                message.setErrorMsg("更新用户记录失败！");
+                                                return message;
+                                            }
+                                        }else {
+
+                                        }
+                                    }else {
+                                        message.setErrorMsg("获取当前工作目录Service失败！");
+                                        message.setStatusCode(5600);
+                                    }
+                                }
+                            }else {
+                                message.setStatusCode(5400);
+                                message.setErrorMsg("无法知道附属Service！");
+                                return message;
+                            }
+                        }
+                        else {
+                            message.setStatusCode(5300);
+                            message.setErrorMsg("不匹配的事务类型！");
+                            return message;
+                        }
+                    }else response.sendRedirect("/index.html");
+                }
+
+                message.setStatusCode(5500);
+                message.setErrorMsg("已被管理员禁止接受分享功能！");
+            }
+        }
+
+        return message;
     }
 }

@@ -14,4 +14,6 @@ public interface MainSvrService {
     List<Service> getChildren(User user,String curPath);
 
     Service queryByID(int RecordID);
+
+    boolean copyService(Service service,User user,Service workDir);
 }

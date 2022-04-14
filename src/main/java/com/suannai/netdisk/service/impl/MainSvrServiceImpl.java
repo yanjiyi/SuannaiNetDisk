@@ -7,11 +7,13 @@ import com.suannai.netdisk.model.SysFileTab;
 import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.service.MainSvrService;
 import com.suannai.netdisk.service.SysFileTabService;
+import com.suannai.netdisk.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -21,6 +23,9 @@ public class MainSvrServiceImpl implements MainSvrService {
 
     @Autowired
     ServiceMapper serviceMapper;
+
+    @Autowired
+    UserService userService;
 
     @Override
     public boolean blockUserFile(Service service) {
@@ -110,6 +115,44 @@ public class MainSvrServiceImpl implements MainSvrService {
     @Override
     public Service queryByID(int RecordID) {
         return serviceMapper.selectByPrimaryKey(RecordID);
+    }
+
+    @Override
+    public boolean copyService(Service service, User user,Service workDir) {
+        if(service.getDirmask())
+        {
+            Service InsDirService = new Service();
+            InsDirService.setStatus(true);
+            InsDirService.setSysfilerecordid(service.getSysfilerecordid());
+            InsDirService.setUserfilename(service.getUserfilename());
+            InsDirService.setUserid(user.getId());
+            InsDirService.setParentid(workDir.getId());
+            InsDirService.setDirmask(true);
+            InsDirService.setUploaddate(new Date());
+
+            int add = serviceMapper.insert(InsDirService);
+
+            User fromUser = userService.QueryByID(service.getUserid());
+
+            List<Service> children = getChildren(fromUser, service);
+            for(Service sub : children)
+            {
+                copyService(sub,user,workDir);
+            }
+
+            return add == 1;
+        }else {
+            Service insertService = new Service();
+            insertService.setUploaddate(new Date());
+            insertService.setDirmask(false);
+            insertService.setParentid(workDir.getId());
+            insertService.setUserfilename(service.getUserfilename());
+            insertService.setUserid(user.getId());
+            insertService.setStatus(true);
+            insertService.setSysfilerecordid(service.getSysfilerecordid());
+
+            return serviceMapper.insert(insertService) == 1;
+        }
     }
 
     protected List<String> GetDirList(String Path)

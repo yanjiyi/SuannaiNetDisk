@@ -80,5 +80,15 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public boolean deleteUser(User user) {
+        return userMapper.deleteByPrimaryKey(user.getId()) == 1;
+    }
+
+    @Override
+    public User QueryByID(int ID) {
+        return userMapper.selectByPrimaryKey(ID);
+    }
+
 
 }
