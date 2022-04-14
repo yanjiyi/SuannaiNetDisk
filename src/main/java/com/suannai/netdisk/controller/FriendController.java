@@ -3,7 +3,6 @@ package com.suannai.netdisk.controller;
 import com.suannai.netdisk.dao.Message;
 import com.suannai.netdisk.model.SysConfig;
 import com.suannai.netdisk.model.Task;
-import com.suannai.netdisk.model.TaskType;
 import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
