@@ -492,6 +492,13 @@ public class MainSvrController {
                     if(user!=null)
                     {
                         Task task = taskService.queryByID(taskid);
+                        if(task==null)
+                        {
+                            message.setErrorMsg("无效事务ID");
+                            message.setStatusCode(5800);
+                            return message;
+                        }
+
                         if(!Objects.equals(task.getTargetid(), user.getId()))
                         {
                             message.setStatusCode(5200);
@@ -572,6 +579,57 @@ public class MainSvrController {
                 message.setStatusCode(5500);
                 message.setErrorMsg("已被管理员禁止接受分享功能！");
             }
+        }
+
+        return message;
+    }
+
+    @RequestMapping(value = "/refuseShare")
+    public Message refuseShare(@RequestParam("taskid") int taskid,HttpServletResponse response,HttpSession session) throws IOException {
+        Message message = new Message();
+
+        List<SysConfig> sysConfigs = sysConfigService.GetSysConfig();
+        if(sysConfigs.isEmpty())
+        {
+            message.setErrorMsg("已被管理员禁止拒绝分享功能！");
+            message.setStatusCode(5500);
+        }else {
+            for(SysConfig sysConfig : sysConfigs)
+            {
+                if(sysConfig.getName().equals("AllowRefuseShare")&&sysConfig.getValue().equals("YES"))
+                {
+                    User user = (User) session.getAttribute("user");
+                    if(user!=null)
+                    {
+                        Task task = taskService.queryByID(taskid);
+                        if(task!=null)
+                        {
+                            if(Objects.equals(task.getTargetid(), user.getId()))
+                            {
+                                if(task.getTasktype() != taskTypeService.GetTaskID("Share"))
+                                {
+                                    message.setErrorMsg("不匹配的事务类型！");
+                                    message.setStatusCode(5300);
+                                }else {
+                                    taskService.lockTask(task);
+                                    message.setStatusCode(2000);
+                                    message.setErrorMsg("拒绝成功！");
+                                    return message;
+                                }
+                            }else {
+                                message.setStatusCode(5200);
+                                message.setErrorMsg("不是当前用户事务！拒绝访问！");
+                            }
+                        }else {
+                            message.setStatusCode(5100);
+                            message.setErrorMsg("无效事务ID");
+                        }
+                    }else response.sendRedirect("/index.html");
+                }
+            }
+
+            message.setErrorMsg("已被管理员禁止拒绝分享功能！");
+            message.setStatusCode(5500);
         }
 
         return message;
