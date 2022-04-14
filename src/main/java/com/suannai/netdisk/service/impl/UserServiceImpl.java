@@ -90,5 +90,14 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByPrimaryKey(ID);
     }
 
+    @Override
+    public User QueryByName(String name) {
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUsernameEqualTo(name);
+
+        return userMapper.selectByExample(example).get(0);
+    }
+
 
 }

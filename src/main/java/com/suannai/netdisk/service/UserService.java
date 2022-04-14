@@ -11,4 +11,6 @@ public interface UserService {
 
     boolean deleteUser(User user);
     User QueryByID(int ID);
+
+    User QueryByName(String name);
 }
