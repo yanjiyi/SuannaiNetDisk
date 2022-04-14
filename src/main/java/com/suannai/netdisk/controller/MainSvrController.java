@@ -16,11 +16,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigInteger;
+import java.io.*;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 @RestController
 public class MainSvrController {
@@ -168,7 +171,7 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/upload")
-    public Message upload(@RequestParam("file") MultipartFile file, @RequestParam("fileHash") String filehash, @RequestParam("isDir") Boolean isDir, HttpSession session, HttpServletResponse response) throws IOException {
+    public Message upload(@RequestParam("file") MultipartFile file, @RequestParam("fileHash") String filehash, @RequestParam("isDir") Boolean isDir, @RequestParam("dirName") String dirname, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
         message.setErrorMsg("操作成功！");
         message.setOperation("上传文件");
@@ -212,7 +215,7 @@ public class MainSvrController {
                                 userService.setUserid(user.getId());
                                 userService.setStatus(true);
                                 userService.setDirmask(true);
-                                userService.setUserfilename(file.getOriginalFilename());
+                                userService.setUserfilename(dirname);
                                 userService.setUploaddate(new Date());
                                 userService.setSysfilerecordid(-1);
                                 userService.setParentid(currentWorkService.getId());
@@ -336,10 +339,36 @@ public class MainSvrController {
                         Service service = mainSvrService.queryByID(RecordID);
                         if (service != null) {
                             //判断是否是文件件，打包ZIP下载，如果不是直接读取文件流发送
+                            String filename = service.getUserfilename()+".zip";
+                            filename =  URLEncoder.encode(filename, StandardCharsets.UTF_8);
+                            response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+                            response.setContentType("multipart/form-data");
+
                             if (service.getDirmask()) {
-
+                                ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream());
+                                ProcessService(user,zipOutputStream,service,"");
+                                zipOutputStream.close();
                             } else {
+                                service.setUserfilename(URLEncoder.encode(service.getUserfilename(), StandardCharsets.UTF_8));
 
+                                File file = new File(sysFileTabService.queryByID(service.getSysfilerecordid()).getLocation());
+                                InputStream bis = new BufferedInputStream(new FileInputStream(file));
+
+                                response.setHeader("Content-Disposition", "attachment;filename=" + service.getUserfilename());
+                                response.setContentType("multipart/form-data");
+                                response.setContentLength(bis.available());
+
+                                BufferedOutputStream outputStream = new BufferedOutputStream(response.getOutputStream());
+                                int len = 0;
+                                byte[] buffer = new byte[1024];
+                                while((len=bis.read(buffer))!=-1)
+                                {
+                                    outputStream.write(buffer,0,len);
+                                    outputStream.flush();
+                                }
+
+                                bis.close();
+                                outputStream.close();
                             }
                         }
                     }
@@ -348,5 +377,41 @@ public class MainSvrController {
         }
 
         response.sendRedirect("/error/DownLoadHasBeenDisable.html");
+    }
+
+
+    protected void ProcessService(User user,ZipOutputStream zipOutputStream,Service targets,String base) throws IOException {
+        List<Service> curContext = mainSvrService.getChildren(user,targets);
+
+        for(Service curTarget : curContext)
+        {
+            if(!curTarget.getDirmask())
+            {
+                FileInputStream fis = new FileInputStream(sysFileTabService.queryByID(curTarget.getSysfilerecordid()).getLocation());
+                BufferedInputStream bis = new BufferedInputStream(fis);
+
+                zipOutputStream.putNextEntry(new ZipEntry(base + File.separator + curTarget.getUserfilename()));
+                int len;
+                byte[] buf = new byte[1024];
+                while((len = bis.read(buf,0,1024))!=-1)
+                {
+                    zipOutputStream.write(buf,0,len);
+                }
+
+                bis.close();
+                fis.close();
+            }else {
+                List<Service> dirContext = mainSvrService.getChildren(user,curTarget);
+                if(dirContext.isEmpty())
+                {
+                    zipOutputStream.putNextEntry(new ZipEntry(base + curTarget.getUserfilename() + File.separator));
+                }else {
+                    for(Service dirService : dirContext)
+                    {
+                        ProcessService(user,zipOutputStream,dirService,base + File.separator + curTarget.getUserfilename());
+                    }
+                }
+            }
+        }
     }
 }

@@ -77,4 +77,9 @@ public class SysFileTabServiceImpl implements SysFileTabService {
 
         return null;
     }
+
+    @Override
+    public SysFileTab queryByID(int ID) {
+        return sysFileTabMapper.selectByPrimaryKey(ID);
+    }
 }

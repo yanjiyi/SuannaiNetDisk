@@ -7,4 +7,6 @@ public interface SysFileTabService {
     boolean addRecord(SysFileTab sysFileTab);
     SysFileTab findByHash(String strHash);
     SysFileTab GetRoot();
+
+    SysFileTab queryByID(int ID);
 }
