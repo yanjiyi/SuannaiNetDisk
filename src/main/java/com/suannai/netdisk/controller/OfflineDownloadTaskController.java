@@ -8,6 +8,7 @@ import com.suannai.netdisk.dao.AddUriOption;
 import com.suannai.netdisk.dao.OfficeTaskRespData;
 import com.suannai.netdisk.model.Service;
 import com.suannai.netdisk.model.SysFileTab;
+import com.suannai.netdisk.model.Task;
 import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.service.*;
 import com.suannai.netdisk.utils.Aria2Utils;
@@ -121,6 +122,18 @@ public class OfflineDownloadTaskController {
                     service.setStatus(false);
                     service.setSysfilerecordid(curSysFileTab.getId());
 
+                    Task task = new Task();
+                    task.setUserid(user.getId());
+                    task.setTasktype(taskTypeService.GetTaskID("download"));
+                    task.setTargetid(0);
+                    task.setAdditional(-1);
+                    task.setDate(new Date());
+                    task.setTaskstatus(false);
+                    task.setAria2id(jsonObject.getString("id"));
+                    task.setIdle(false);
+                    task.setGid(jsonObject.getString("result"));
+
+                    taskService.createTask(task);
                     mainSvrService.addFile(service);
                 }
 
@@ -131,6 +144,7 @@ public class OfflineDownloadTaskController {
                 officeTaskRespData.setStatusCode(2000);
                 officeTaskRespData.setAria2status(status);
                 officeTaskRespData.setLength(length);
+
             }else response.sendRedirect("/index.html");
         }else {
             officeTaskRespData.setMessage("已被管理员禁止建立离线下载任务！");
