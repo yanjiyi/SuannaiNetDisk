@@ -4,7 +4,9 @@ import com.suannai.netdisk.model.Service;
 import com.suannai.netdisk.model.ServiceExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+@Component
 public interface ServiceMapper {
     long countByExample(ServiceExample example);
 
