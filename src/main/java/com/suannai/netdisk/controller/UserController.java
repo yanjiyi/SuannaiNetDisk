@@ -49,6 +49,7 @@ public class UserController {
                     }
 
                     session.setAttribute("CurWorkDir", "/");
+
                     return message;
                 } else {
                     message.setErrorMsg("已被管理员禁止登录！");

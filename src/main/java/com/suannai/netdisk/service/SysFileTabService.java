@@ -9,4 +9,6 @@ public interface SysFileTabService {
     SysFileTab GetRoot();
 
     SysFileTab queryByID(int ID);
+
+    SysFileTab findByLocation(String location);
 }

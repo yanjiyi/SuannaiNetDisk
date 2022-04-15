@@ -9,4 +9,6 @@ public class OfficeTaskRespData {
     String gid;
     String aria2id;
     String taskid;
+    String aria2status;
+    long length;
 }

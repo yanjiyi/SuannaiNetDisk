@@ -2,10 +2,7 @@ package com.suannai.netdisk.service.impl;
 
 import com.suannai.netdisk.mapper.ServiceMapper;
 import com.suannai.netdisk.mapper.SysFileTabMapper;
-import com.suannai.netdisk.model.Service;
-import com.suannai.netdisk.model.ServiceExample;
-import com.suannai.netdisk.model.SysFileTab;
-import com.suannai.netdisk.model.SysFileTabExample;
+import com.suannai.netdisk.model.*;
 import com.suannai.netdisk.service.SysFileTabService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -81,5 +78,14 @@ public class SysFileTabServiceImpl implements SysFileTabService {
     @Override
     public SysFileTab queryByID(int ID) {
         return sysFileTabMapper.selectByPrimaryKey(ID);
+    }
+
+    @Override
+    public SysFileTab findByLocation(String location) {
+        SysFileTabExample example = new SysFileTabExample();
+        SysFileTabExample.Criteria criteria = example.createCriteria();
+        criteria.andLocationEqualTo(location);
+
+        return sysFileTabMapper.selectByExample(example).get(0);
     }
 }
