@@ -38,7 +38,7 @@ public class MainSvrController {
     @Autowired
     SysConfigService sysConfigService;
 
-    @RequestMapping(value = "/listCur")
+    @RequestMapping(value = "/api/listCur")
     public List<Service> listCur(HttpSession session, HttpServletResponse response) throws IOException {
         User user = (User) session.getAttribute("user");
         if (user != null) {
@@ -60,7 +60,7 @@ public class MainSvrController {
         return null;
     }
 
-    @RequestMapping(value = "/pwd")
+    @RequestMapping(value = "/api/pwd")
     public String GetPwd(HttpSession session, HttpServletResponse response) throws IOException {
         if (sysConfigService.ConfigIsAllow("AllowPwd")) {
             User user = (User) session.getAttribute("user");
@@ -74,7 +74,7 @@ public class MainSvrController {
     }
 
 
-    @RequestMapping(value = "/getCurService")
+    @RequestMapping(value = "/api/getCurService")
     public Service GetCurService(HttpSession session, HttpServletResponse response) throws IOException {
 
         if (sysConfigService.ConfigIsAllow("AllowGetCurService")) {
@@ -101,7 +101,7 @@ public class MainSvrController {
     }
 
 
-    @RequestMapping(value = "/cd")
+    @RequestMapping(value = "/api/cd")
     public Message changeDir(@RequestParam("where") String where, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
         User user = (User) session.getAttribute("user");
@@ -152,7 +152,7 @@ public class MainSvrController {
         return message;
     }
 
-    @RequestMapping(value = "/upload")
+    @RequestMapping(value = "/api/upload")
     public Message upload(@RequestParam("file") MultipartFile file, @RequestParam("fileHash") String filehash, @RequestParam("isDir") Boolean isDir, @RequestParam("dirName") String dirname, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
         message.setErrorMsg("操作成功！");
@@ -298,7 +298,7 @@ public class MainSvrController {
     }
 
 
-    @RequestMapping(value = "/download")
+    @RequestMapping(value = "/api/download")
     public void DownLoad(@RequestParam("recorid") int RecordID, HttpSession session, HttpServletResponse response) throws IOException {
 
         if (sysConfigService.ConfigIsAllow("AllowDownload")) {
@@ -378,7 +378,7 @@ public class MainSvrController {
         }
     }
 
-    @RequestMapping(value = "/share")
+    @RequestMapping(value = "/api/share")
     public Message Shader(ShareRequestData requestData, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
 
@@ -421,7 +421,7 @@ public class MainSvrController {
         return message;
     }
 
-    @RequestMapping(value = "/acceptShare")
+    @RequestMapping(value = "/api/acceptShare")
     public Message acceptShare(@RequestParam("taskid") int taskid, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
 
@@ -510,7 +510,7 @@ public class MainSvrController {
         return message;
     }
 
-    @RequestMapping(value = "/refuseShare")
+    @RequestMapping(value = "/api/refuseShare")
     public Message refuseShare(@RequestParam("taskid") int taskid, HttpServletResponse response, HttpSession session) throws IOException {
         Message message = new Message();
 

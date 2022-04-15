@@ -27,7 +27,7 @@ public class UserController {
     @Autowired
     SysConfigService sysConfigService;
 
-    @RequestMapping(value = "/login")
+    @RequestMapping(value = "/api/login")
     public Message login(@RequestBody LoginRequstData requstData, HttpServletRequest request, HttpSession session) {
         Message message = new Message();
         message.setErrorMsg("登录成功！");
@@ -66,7 +66,7 @@ public class UserController {
         return message;
     }
 
-    @RequestMapping(value = "/register")
+    @RequestMapping(value = "/api/register")
     public Message register(@RequestBody LoginRequstData requstData, HttpSession session) {
         Message message = new Message();
         message.setStatusCode(2000);
@@ -103,7 +103,7 @@ public class UserController {
         return message;
     }
 
-    @RequestMapping(value = "/logout")
+    @RequestMapping(value = "/api/logout")
     public Message logout(HttpSession session, HttpServletResponse response) {
         Message message = new Message();
         message.setErrorMsg("操作成功！");

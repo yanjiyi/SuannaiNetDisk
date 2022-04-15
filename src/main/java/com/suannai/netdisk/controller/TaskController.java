@@ -23,7 +23,7 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @RequestMapping(value = "/deleteTask")
+    @RequestMapping(value = "/api/deleteTask")
     public Message deleteTask(@RequestParam("taskid") int taskid, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
 

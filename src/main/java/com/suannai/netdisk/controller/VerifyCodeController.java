@@ -25,7 +25,7 @@ public class VerifyCodeController {
         return new Color(r, g, b);
     }
 
-    @RequestMapping(value = "/verifyCode")
+    @RequestMapping(value = "/api/verifyCode")
     public void VerifyCodeGen(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //禁止缓存
         response.setHeader("Pragma", "No-cache");

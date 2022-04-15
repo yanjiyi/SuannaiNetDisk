@@ -45,7 +45,7 @@ public class OfflineDownloadTaskController {
     @Autowired
     MainSvrService mainSvrService;
 
-    @RequestMapping(value = "/addDownloadTask")
+    @RequestMapping(value = "/api/addDownloadTask")
     public OfficeTaskRespData addDownloadTask(@RequestParam("url") String url, HttpServletResponse response, HttpSession session) throws IOException {
         OfficeTaskRespData officeTaskRespData = new OfficeTaskRespData();
 
@@ -124,7 +124,7 @@ public class OfflineDownloadTaskController {
 
                     Task task = new Task();
                     task.setUserid(user.getId());
-                    task.setTasktype(taskTypeService.GetTaskID("download"));
+                    task.setTasktype(taskTypeService.GetTaskID("Download"));
                     task.setTargetid(0);
                     task.setAdditional(-1);
                     task.setDate(new Date());

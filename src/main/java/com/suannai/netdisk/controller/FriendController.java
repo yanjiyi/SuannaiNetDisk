@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.Objects;
 
 @RestController
 public class FriendController {
+
     @Autowired
     SysConfigService sysConfigService;
 
@@ -33,7 +35,7 @@ public class FriendController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/addFriend")
+    @RequestMapping(value = "/api/addFriend")
     public Message addFriend(@RequestParam("username") String username, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
 
@@ -83,7 +85,7 @@ public class FriendController {
         return message;
     }
 
-    @RequestMapping(value = "/accecptFriend")
+    @RequestMapping(value = "/api/accecptFriend")
     public Message acceptFriend(@RequestParam("taskid") int taskid, HttpServletResponse response, HttpSession session) throws IOException {
         Message message = new Message();
 
@@ -143,7 +145,7 @@ public class FriendController {
         return message;
     }
 
-    @RequestMapping(value = "/refuseFriend")
+    @RequestMapping(value = "/api/refuseFriend")
     public Message refuseFriend(@RequestParam("taskid") int taskid, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
 
