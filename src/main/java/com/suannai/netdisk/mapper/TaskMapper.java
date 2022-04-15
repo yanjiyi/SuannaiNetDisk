@@ -4,9 +4,7 @@ import com.suannai.netdisk.model.Task;
 import com.suannai.netdisk.model.TaskExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
-@Component
 public interface TaskMapper {
     long countByExample(TaskExample example);
 

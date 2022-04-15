@@ -584,6 +584,146 @@ public class TaskExample {
             addCriterion("Idle not between", value1, value2, "idle");
             return (Criteria) this;
         }
+
+        public Criteria andGidIsNull() {
+            addCriterion("GID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidIsNotNull() {
+            addCriterion("GID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidEqualTo(String value) {
+            addCriterion("GID =", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotEqualTo(String value) {
+            addCriterion("GID <>", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidGreaterThan(String value) {
+            addCriterion("GID >", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidGreaterThanOrEqualTo(String value) {
+            addCriterion("GID >=", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidLessThan(String value) {
+            addCriterion("GID <", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidLessThanOrEqualTo(String value) {
+            addCriterion("GID <=", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidLike(String value) {
+            addCriterion("GID like", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotLike(String value) {
+            addCriterion("GID not like", value, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidIn(List<String> values) {
+            addCriterion("GID in", values, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotIn(List<String> values) {
+            addCriterion("GID not in", values, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidBetween(String value1, String value2) {
+            addCriterion("GID between", value1, value2, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andGidNotBetween(String value1, String value2) {
+            addCriterion("GID not between", value1, value2, "gid");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idIsNull() {
+            addCriterion("Aria2ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idIsNotNull() {
+            addCriterion("Aria2ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idEqualTo(String value) {
+            addCriterion("Aria2ID =", value, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idNotEqualTo(String value) {
+            addCriterion("Aria2ID <>", value, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idGreaterThan(String value) {
+            addCriterion("Aria2ID >", value, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idGreaterThanOrEqualTo(String value) {
+            addCriterion("Aria2ID >=", value, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idLessThan(String value) {
+            addCriterion("Aria2ID <", value, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idLessThanOrEqualTo(String value) {
+            addCriterion("Aria2ID <=", value, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idLike(String value) {
+            addCriterion("Aria2ID like", value, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idNotLike(String value) {
+            addCriterion("Aria2ID not like", value, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idIn(List<String> values) {
+            addCriterion("Aria2ID in", values, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idNotIn(List<String> values) {
+            addCriterion("Aria2ID not in", values, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idBetween(String value1, String value2) {
+            addCriterion("Aria2ID between", value1, value2, "aria2id");
+            return (Criteria) this;
+        }
+
+        public Criteria andAria2idNotBetween(String value1, String value2) {
+            addCriterion("Aria2ID not between", value1, value2, "aria2id");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

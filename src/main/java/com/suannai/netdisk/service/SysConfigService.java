@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface SysConfigService {
     List<SysConfig> GetSysConfig();
+    SysConfig GetConfig(String name);
+    boolean ConfigIsAllow(String name);
 }

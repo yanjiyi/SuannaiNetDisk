@@ -19,7 +19,11 @@ public class Task {
 
     private Boolean idle;
 
-    public Task(Integer id, Integer tasktype, Date date, Integer userid, Integer targetid, Boolean taskstatus, Integer additional, Boolean idle) {
+    private String gid;
+
+    private String aria2id;
+
+    public Task(Integer id, Integer tasktype, Date date, Integer userid, Integer targetid, Boolean taskstatus, Integer additional, Boolean idle, String gid, String aria2id) {
         this.id = id;
         this.tasktype = tasktype;
         this.date = date;
@@ -28,6 +32,8 @@ public class Task {
         this.taskstatus = taskstatus;
         this.additional = additional;
         this.idle = idle;
+        this.gid = gid;
+        this.aria2id = aria2id;
     }
 
     public Task() {
@@ -96,5 +102,21 @@ public class Task {
 
     public void setIdle(Boolean idle) {
         this.idle = idle;
+    }
+
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid == null ? null : gid.trim();
+    }
+
+    public String getAria2id() {
+        return aria2id;
+    }
+
+    public void setAria2id(String aria2id) {
+        this.aria2id = aria2id == null ? null : aria2id.trim();
     }
 }

@@ -18,4 +18,28 @@ public class SysConfigServiceImpl implements SysConfigService {
     public List<SysConfig> GetSysConfig() {
         return sysConfigMapper.selectByExample(new SysConfigExample());
     }
+
+    @Override
+    public SysConfig GetConfig(String name) {
+        SysConfigExample example = new SysConfigExample();
+        SysConfigExample.Criteria criteria = example.createCriteria();
+        criteria.andNameEqualTo(name);
+
+        return sysConfigMapper.selectByExample(example).get(0);
+    }
+
+    @Override
+    public boolean ConfigIsAllow(String name) {
+        SysConfigExample example = new SysConfigExample();
+        SysConfigExample.Criteria criteria = example.createCriteria();
+        criteria.andNameEqualTo(name);
+
+        SysConfig config = sysConfigMapper.selectByExample(example).get(0);
+        if(config!=null)
+        {
+            return config.getValue().equals("YES");
+        }
+
+        return false;
+    }
 }

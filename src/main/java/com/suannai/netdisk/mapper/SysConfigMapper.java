@@ -4,9 +4,7 @@ import com.suannai.netdisk.model.SysConfig;
 import com.suannai.netdisk.model.SysConfigExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
-@Component
 public interface SysConfigMapper {
     long countByExample(SysConfigExample example);
 

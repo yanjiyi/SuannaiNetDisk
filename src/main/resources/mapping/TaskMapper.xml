@@ -11,6 +11,8 @@
       <arg column="TaskStatus" javaType="java.lang.Boolean" jdbcType="BIT" />
       <arg column="Additional" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="Idle" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="GID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="Aria2ID" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -72,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, TaskType, Date, UserID, TargetID, TaskStatus, Additional, Idle
+    ID, TaskType, Date, UserID, TargetID, TaskStatus, Additional, Idle, GID, Aria2ID
   </sql>
   <select id="selectByExample" parameterType="com.suannai.netdisk.model.TaskExample" resultMap="BaseResultMap">
     select
@@ -108,10 +110,12 @@
   <insert id="insert" parameterType="com.suannai.netdisk.model.Task">
     insert into task (ID, TaskType, Date, 
       UserID, TargetID, TaskStatus, 
-      Additional, Idle)
+      Additional, Idle, GID, 
+      Aria2ID)
     values (#{id,jdbcType=INTEGER}, #{tasktype,jdbcType=INTEGER}, #{date,jdbcType=TIMESTAMP}, 
       #{userid,jdbcType=INTEGER}, #{targetid,jdbcType=INTEGER}, #{taskstatus,jdbcType=BIT}, 
-      #{additional,jdbcType=INTEGER}, #{idle,jdbcType=BIT})
+      #{additional,jdbcType=INTEGER}, #{idle,jdbcType=BIT}, #{gid,jdbcType=VARCHAR}, 
+      #{aria2id,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suannai.netdisk.model.Task">
     insert into task
@@ -140,6 +144,12 @@
       <if test="idle != null">
         Idle,
       </if>
+      <if test="gid != null">
+        GID,
+      </if>
+      <if test="aria2id != null">
+        Aria2ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -165,6 +175,12 @@
       </if>
       <if test="idle != null">
         #{idle,jdbcType=BIT},
+      </if>
+      <if test="gid != null">
+        #{gid,jdbcType=VARCHAR},
+      </if>
+      <if test="aria2id != null">
+        #{aria2id,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -201,6 +217,12 @@
       <if test="record.idle != null">
         Idle = #{record.idle,jdbcType=BIT},
       </if>
+      <if test="record.gid != null">
+        GID = #{record.gid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.aria2id != null">
+        Aria2ID = #{record.aria2id,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -215,7 +237,9 @@
       TargetID = #{record.targetid,jdbcType=INTEGER},
       TaskStatus = #{record.taskstatus,jdbcType=BIT},
       Additional = #{record.additional,jdbcType=INTEGER},
-      Idle = #{record.idle,jdbcType=BIT}
+      Idle = #{record.idle,jdbcType=BIT},
+      GID = #{record.gid,jdbcType=VARCHAR},
+      Aria2ID = #{record.aria2id,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -244,6 +268,12 @@
       <if test="idle != null">
         Idle = #{idle,jdbcType=BIT},
       </if>
+      <if test="gid != null">
+        GID = #{gid,jdbcType=VARCHAR},
+      </if>
+      <if test="aria2id != null">
+        Aria2ID = #{aria2id,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
@@ -255,7 +285,9 @@
       TargetID = #{targetid,jdbcType=INTEGER},
       TaskStatus = #{taskstatus,jdbcType=BIT},
       Additional = #{additional,jdbcType=INTEGER},
-      Idle = #{idle,jdbcType=BIT}
+      Idle = #{idle,jdbcType=BIT},
+      GID = #{gid,jdbcType=VARCHAR},
+      Aria2ID = #{aria2id,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

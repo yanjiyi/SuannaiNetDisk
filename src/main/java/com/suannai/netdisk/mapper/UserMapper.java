@@ -4,9 +4,7 @@ import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.model.UserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
-@Component
 public interface UserMapper {
     long countByExample(UserExample example);
 
