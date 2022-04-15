@@ -1,13 +1,12 @@
 package com.suannai.netdisk.utils;
 
 import com.suannai.netdisk.dao.AddUriOption;
-import org.apache.ibatis.reflection.wrapper.BaseWrapper;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
+import java.util.Map;
 
 public class Aria2Utils {
     public static String addUri(String jsonRpcURL,String[] uri, AddUriOption option) throws IOException {
@@ -201,10 +200,48 @@ public class Aria2Utils {
         return aria2Command.send(jsonRpcURL);
     }
 
+    public static String changeOption(String jsonRpcURL, String gid, Map<String,String> options) throws IOException {
+        Aria2Command aria2Command = new Aria2Command();
+        aria2Command.setMethod(aria2Command.METHOD_CHANGEOPTION);
+        aria2Command.addParam(gid).addParam(options);
+        return aria2Command.send(jsonRpcURL);
+    }
+
+    public static String getGlobalOption(String jsonRpcURL) throws IOException {
+        Aria2Command aria2Command = new Aria2Command();
+        aria2Command.setMethod(aria2Command.METHOD_GETGLOBALOPTION);
+        return aria2Command.send(jsonRpcURL);
+    }
+
+    public static String changeGlobalOption(String jsonRpcURL,Map<String,String> options) throws IOException {
+        Aria2Command aria2Command = new Aria2Command();
+        aria2Command.setMethod(aria2Command.METHOD_CHANGEGLOBALOPTION);
+        aria2Command.addParam(options);
+        return aria2Command.send(jsonRpcURL);
+    }
+
     public static String getGlobalStat(String jsonRpcURL) throws IOException {
         Aria2Command aria2Command = new Aria2Command();
         aria2Command.setMethod(aria2Command.METHOD_GETGLOBALSTAT);
         return aria2Command.send(jsonRpcURL);
     }
 
+    public static String purgeDownloadResult(String jsonRpcURL) throws IOException {
+        Aria2Command aria2Command = new Aria2Command();
+        aria2Command.setMethod(aria2Command.METHOD_PURGEDOWNLOADRESULT);
+        return aria2Command.send(jsonRpcURL);
+    }
+
+    public static String removeDownloadResult(String jsonRpcURL,String gid) throws IOException {
+        Aria2Command aria2Command = new Aria2Command();
+        aria2Command.setMethod(aria2Command.METHOD_REMOVEDOWNLOADRESULT);
+        aria2Command.addParam(gid);
+        return aria2Command.send(jsonRpcURL);
+    }
+
+    public static String getVersion(String jsonRpcURL) throws IOException {
+        Aria2Command aria2Command = new Aria2Command();
+        aria2Command.setMethod(aria2Command.METHOD_GETVERSION);
+        return aria2Command.send(jsonRpcURL);
+    }
 }
