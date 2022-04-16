@@ -62,6 +62,10 @@ public class OfflineDownloadTaskController {
 
                 dir+= File.separator + user.getUsername() + File.separator + UUID.randomUUID();
 
+                File testDir = new File(dir);
+                if(!testDir.exists())
+                    testDir.mkdirs();
+
                 AddUriOption addUriOption = new AddUriOption();
                 addUriOption.setDir(dir);
                 JSONObject jsonObject = JSON.parseObject(Aria2Utils.addUri("http://localhost:6800/jsonrpc",new String[]{url},addUriOption));
