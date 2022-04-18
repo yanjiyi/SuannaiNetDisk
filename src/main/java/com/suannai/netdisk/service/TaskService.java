@@ -13,4 +13,7 @@ public interface TaskService {
 
     List<Task> queryUserDownloadTask(int UserID);
     Task queryUserDownloadTaskByID(int UserID,int ID);
+
+    List<Task> queryUserTask(int UserID);
+    List<Task> queryToUserTask(int UserID);
 }

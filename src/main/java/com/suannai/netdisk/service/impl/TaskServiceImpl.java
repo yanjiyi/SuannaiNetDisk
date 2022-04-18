@@ -3,6 +3,7 @@ package com.suannai.netdisk.service.impl;
 import com.suannai.netdisk.mapper.TaskMapper;
 import com.suannai.netdisk.model.Task;
 import com.suannai.netdisk.model.TaskExample;
+import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.service.TaskService;
 import com.suannai.netdisk.service.TaskTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,5 +67,23 @@ public class TaskServiceImpl implements TaskService {
         criteria.andUseridEqualTo(UserID);
 
         return taskMapper.selectByExample(example).get(0);
+    }
+
+    @Override
+    public List<Task> queryUserTask(int UserID) {
+        TaskExample example = new TaskExample();
+        TaskExample.Criteria criteria = example.createCriteria();
+        criteria.andUseridEqualTo(UserID);
+
+        return taskMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<Task> queryToUserTask(int UserID) {
+        TaskExample example = new TaskExample();
+        TaskExample.Criteria criteria = example.createCriteria();
+        criteria.andTargetidEqualTo(UserID);
+
+        return taskMapper.selectByExample(example);
     }
 }

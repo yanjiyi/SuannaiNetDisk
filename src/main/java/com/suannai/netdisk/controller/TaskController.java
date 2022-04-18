@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -56,5 +57,33 @@ public class TaskController {
         }
 
         return message;
+    }
+
+    @RequestMapping(value = "/listMyTask")
+    public List<Task> listMyTask(HttpSession session,HttpServletResponse response) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AllowListMyTask"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                return taskService.queryUserTask(user.getId());
+            }else response.sendRedirect("/index.html");
+        }
+
+        return null;
+    }
+
+    @RequestMapping(value = "/listToMyTask")
+    public List<Task> listToMyTask(HttpSession session,HttpServletResponse response) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AllowListToMyTask"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                return taskService.queryToUserTask(user.getId());
+            }else response.sendRedirect("/index.html");
+        }
+
+        return null;
     }
 }
