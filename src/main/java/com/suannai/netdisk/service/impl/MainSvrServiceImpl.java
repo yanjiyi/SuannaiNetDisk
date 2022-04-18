@@ -113,12 +113,17 @@ public class MainSvrServiceImpl implements MainSvrService {
 
     @Override
     public List<Service> getChildren(User user, Service service) {
-        ServiceExample example = new ServiceExample();
-        ServiceExample.Criteria criteria = example.createCriteria();
-        criteria.andUseridEqualTo(user.getId());
-        criteria.andParentidEqualTo(service.getId());
+        if(service.getDirmask())
+        {
+            ServiceExample example = new ServiceExample();
+            ServiceExample.Criteria criteria = example.createCriteria();
+            criteria.andUseridEqualTo(user.getId());
+            criteria.andParentidEqualTo(service.getId());
 
-        return serviceMapper.selectByExample(example);
+            return serviceMapper.selectByExample(example);
+        }
+
+        return null;
     }
 
     @Override
