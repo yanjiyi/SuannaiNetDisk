@@ -179,6 +179,15 @@ public class MainSvrServiceImpl implements MainSvrService {
         }
     }
 
+    @Override
+    public List<Service> getWithSysFileTabID(int ID) {
+        ServiceExample example = new ServiceExample();
+        ServiceExample.Criteria criteria = example.createCriteria();
+        criteria.andSysfilerecordidEqualTo(ID);
+
+        return serviceMapper.selectByExample(example);
+    }
+
     protected List<String> GetDirList(String Path)
     {
         String[] list = Path.split("/");

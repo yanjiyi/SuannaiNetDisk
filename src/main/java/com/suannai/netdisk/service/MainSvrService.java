@@ -16,4 +16,6 @@ public interface MainSvrService {
     Service queryByID(int RecordID);
 
     boolean copyService(Service service,User user,Service workDir);
+
+    List<Service> getWithSysFileTabID(int ID);
 }
