@@ -10,4 +10,5 @@ public interface FriendService {
     boolean deleteFriendsByID(int ID);
     boolean addFriend(Friend friend);
     boolean DisconnectFriend(int FrdId,int Ownner);
+    List<Friend> listMyFriends(int UserID);
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -184,5 +185,20 @@ public class FriendController {
         }
 
         return message;
+    }
+
+    @RequestMapping(value = "/listMyFriends")
+    public List<Friend> listMyFriends(HttpServletResponse response, HttpSession session)
+    {
+        if(sysConfigService.ConfigIsAllow("ListMyFriends"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                return friendService.listMyFriends(user.getId());
+            }
+        }
+
+        return null;
     }
 }
