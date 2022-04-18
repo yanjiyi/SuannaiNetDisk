@@ -240,7 +240,7 @@ public class MainSvrController {
 
                         if (uploadPath != null) {
                             if (!uploadPath.equals("")) {
-                                File dir = new File(uploadPath + file.getOriginalFilename());
+                                File dir = new File(uploadPath + File.separator + file.getOriginalFilename());
                                 if (!dir.exists()) {
                                     dir.mkdirs();
                                 }
