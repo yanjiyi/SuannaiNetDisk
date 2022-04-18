@@ -567,4 +567,26 @@ public class MainSvrController {
 
         return null;
     }
+
+    @RequestMapping(value = "/queryService")
+    public Service queryService(@RequestParam("id") int id,HttpServletResponse response,HttpSession session) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AllowQueryService"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                Service result = mainSvrService.queryByID(id);
+                if(result!=null)
+                {
+                    if(Objects.equals(result.getUserid(), user.getId()))
+                    {
+                        return result;
+                    }
+                }
+            }
+            else response.sendRedirect("/index.html");
+        }
+
+        return null;
+    }
 }
