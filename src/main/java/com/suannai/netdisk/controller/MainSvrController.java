@@ -553,4 +553,18 @@ public class MainSvrController {
 
         return message;
     }
+
+    @RequestMapping(value = "/querySysFileTab")
+    public SysFileTab querySysFileTab(@RequestParam("id") int id,HttpSession session,HttpServletResponse response) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AllowQuerySysFileTab"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                return sysFileTabService.queryByID(id);
+            }else response.sendRedirect("/index.html");
+        }
+
+        return null;
+    }
 }
