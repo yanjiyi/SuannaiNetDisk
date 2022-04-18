@@ -65,6 +65,25 @@ public class MainSvrServiceImpl implements MainSvrService {
                     rootService = services.get(0);
                 } else {
                     //Need Create User Root Record
+                    Service insRootService = new Service();
+                    insRootService.setSysfilerecordid(rootRecord.getId());
+                    insRootService.setParentid(-1);
+                    insRootService.setUserid(user.getId());
+                    insRootService.setStatus(true);
+                    insRootService.setDirmask(true);
+                    insRootService.setUserfilename("/");
+                    insRootService.setUploaddate(new Date());
+
+                    serviceMapper.insert(insRootService);
+
+                    services = serviceMapper.selectByExample(findRootExam);
+                    if(!services.isEmpty())
+                    {
+                        rootService = services.get(0);
+                    }else {
+                        return null;
+                    }
+
                     return null;
                 }
 

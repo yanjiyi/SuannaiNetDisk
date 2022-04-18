@@ -70,9 +70,20 @@ public class SysFileTabServiceImpl implements SysFileTabService {
         if(!sysFileTabs.isEmpty())
         {
             return sysFileTabs.get(0);
-        }
+        }else{
+            //Create SysFile Root Record
+            SysFileTab rootFileTab = new SysFileTab();
+            rootFileTab.setFilename("Root");
+            rootFileTab.setFilehash("0");
+            rootFileTab.setFilesize(0L);
+            rootFileTab.setLocation("");
+            rootFileTab.setInuse(true);
+            rootFileTab.setRootmask(true);
 
-        return null;
+            sysFileTabMapper.insert(rootFileTab);
+
+            return GetRoot();
+        }
     }
 
     @Override

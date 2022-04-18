@@ -113,11 +113,19 @@ public class MainSvrController {
                     if (!CurDir.equals("") && (CurDir.charAt(0) == '/')) {
                         Service CurService = mainSvrService.getUserDirRecord(user, CurDir + "/" + where);
                         if (CurService != null) {
-                            session.setAttribute("curService", CurService);
-                            session.setAttribute("CurWorkDir", CurDir + "/" + where);
-                            message.setErrorMsg("操作成功！");
-                            message.setStatusCode(2000);
-                            return message;
+                            if(CurService.getDirmask())
+                            {
+                                session.setAttribute("curService", CurService);
+                                session.setAttribute("CurWorkDir", CurDir + "/" + where);
+                                message.setErrorMsg("操作成功！");
+                                message.setStatusCode(2000);
+                                return message;
+                            }
+                            else{
+                                message.setStatusCode(6000);
+                                message.setErrorMsg("不是目录！");
+                                return message;
+                            }
                         } else {
                             message.setErrorMsg("操作失败！");
                             message.setStatusCode(5100);
