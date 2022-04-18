@@ -13,7 +13,6 @@ import com.suannai.netdisk.model.SysFileTab;
 import com.suannai.netdisk.model.Task;
 import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.service.*;
-import com.suannai.netdisk.utils.Aria2Command;
 import com.suannai.netdisk.utils.Aria2Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
