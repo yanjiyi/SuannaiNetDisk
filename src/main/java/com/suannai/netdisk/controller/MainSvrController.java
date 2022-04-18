@@ -314,13 +314,12 @@ public class MainSvrController {
             if (user != null) {
                 Service service = mainSvrService.queryByID(RecordID);
                 if (service != null) {
-                    //判断是否是文件件，打包ZIP下载，如果不是直接读取文件流发送
-                    String filename = service.getUserfilename() + ".zip";
-                    filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
-                    response.setHeader("Content-Disposition", "attachment;filename=" + filename);
-                    response.setContentType("multipart/form-data");
-
                     if (service.getDirmask()) {
+                        //判断是否是文件件，打包ZIP下载，如果不是直接读取文件流发送
+                        String filename = service.getUserfilename() + ".zip";
+                        filename = URLEncoder.encode(filename, StandardCharsets.UTF_8);
+                        response.setHeader("Content-Disposition", "attachment;filename=" + filename);
+                        response.setContentType("multipart/form-data");
                         ZipOutputStream zipOutputStream = new ZipOutputStream(response.getOutputStream());
                         ProcessService(user, zipOutputStream, service, "");
                         zipOutputStream.close();
