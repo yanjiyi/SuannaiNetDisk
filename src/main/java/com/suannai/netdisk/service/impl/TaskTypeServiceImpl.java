@@ -26,4 +26,13 @@ public class TaskTypeServiceImpl implements TaskTypeService {
         criteria.andTasknameNotEqualTo(name);
         return taskTypeMapper.selectByExample(example).get(0).getId();
     }
+
+    @Override
+    public String GetTaskTypeName(int ID) {
+        TaskTypeExample example = new TaskTypeExample();
+        TaskTypeExample.Criteria criteria = example.createCriteria();
+        criteria.andIdEqualTo(ID);
+
+        return taskTypeMapper.selectByExample(example).get(0).getTaskname();
+    }
 }

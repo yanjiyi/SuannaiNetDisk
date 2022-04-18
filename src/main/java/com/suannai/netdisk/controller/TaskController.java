@@ -5,6 +5,7 @@ import com.suannai.netdisk.model.Task;
 import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.service.SysConfigService;
 import com.suannai.netdisk.service.TaskService;
+import com.suannai.netdisk.service.TaskTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,9 @@ public class TaskController {
 
     @Autowired
     TaskService taskService;
+
+    @Autowired
+    TaskTypeService taskTypeService;
 
     @RequestMapping(value = "/api/deleteTask")
     public Message deleteTask(@RequestParam("taskid") int taskid, HttpSession session, HttpServletResponse response) throws IOException {
@@ -85,5 +89,16 @@ public class TaskController {
         }
 
         return null;
+    }
+
+    @RequestMapping(value = "/getTaskType")
+    public String getTaskType(@RequestParam("taskID") int ID)
+    {
+        if(sysConfigService.ConfigIsAllow("AllowGetTaskType"))
+        {
+            return taskTypeService.GetTaskTypeName(ID);
+        }
+
+        return "None";
     }
 }

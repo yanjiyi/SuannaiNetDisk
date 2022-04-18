@@ -3,7 +3,6 @@ package com.suannai.netdisk.service.impl;
 import com.suannai.netdisk.mapper.TaskMapper;
 import com.suannai.netdisk.model.Task;
 import com.suannai.netdisk.model.TaskExample;
-import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.service.TaskService;
 import com.suannai.netdisk.service.TaskTypeService;
 import org.springframework.beans.factory.annotation.Autowired;

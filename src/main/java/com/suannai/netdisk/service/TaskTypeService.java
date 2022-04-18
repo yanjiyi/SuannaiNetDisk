@@ -7,4 +7,6 @@ import java.util.List;
 public interface TaskTypeService {
     List<TaskType> queryAll();
     int GetTaskID(String name);
+
+    String GetTaskTypeName(int ID);
 }

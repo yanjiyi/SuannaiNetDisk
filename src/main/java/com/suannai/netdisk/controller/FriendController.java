@@ -121,6 +121,9 @@ public class FriendController {
                             friend.setWho(user.getUsername());
 
                             if (status && friendService.addFriend(friend)) {
+                                task.setTaskstatus(true);
+                                taskService.updateTask(task);
+
                                 message.setStatusCode(2000);
                                 message.setErrorMsg("操作成功！");
                             } else {
