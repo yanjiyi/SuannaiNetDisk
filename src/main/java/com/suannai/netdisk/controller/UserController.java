@@ -129,8 +129,7 @@ public class UserController {
     {
         if(sysConfigService.ConfigIsAllow("AllowGetUser"))
         {
-            User user = (User) session.getAttribute("user");
-            return user;
+            return (User) session.getAttribute("user");
         }
 
         return null;
