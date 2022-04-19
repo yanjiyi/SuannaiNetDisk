@@ -1,6 +1,7 @@
 package com.suannai.netdisk.service;
 
 import com.suannai.netdisk.model.Friend;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 

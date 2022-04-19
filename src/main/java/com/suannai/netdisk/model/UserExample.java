@@ -494,6 +494,136 @@ public class UserExample {
             addCriterion("Status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andImgserviceidIsNull() {
+            addCriterion("ImgServiceID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidIsNotNull() {
+            addCriterion("ImgServiceID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidEqualTo(Integer value) {
+            addCriterion("ImgServiceID =", value, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidNotEqualTo(Integer value) {
+            addCriterion("ImgServiceID <>", value, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidGreaterThan(Integer value) {
+            addCriterion("ImgServiceID >", value, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("ImgServiceID >=", value, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidLessThan(Integer value) {
+            addCriterion("ImgServiceID <", value, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidLessThanOrEqualTo(Integer value) {
+            addCriterion("ImgServiceID <=", value, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidIn(List<Integer> values) {
+            addCriterion("ImgServiceID in", values, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidNotIn(List<Integer> values) {
+            addCriterion("ImgServiceID not in", values, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidBetween(Integer value1, Integer value2) {
+            addCriterion("ImgServiceID between", value1, value2, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andImgserviceidNotBetween(Integer value1, Integer value2) {
+            addCriterion("ImgServiceID not between", value1, value2, "imgserviceid");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameIsNull() {
+            addCriterion("NickName is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameIsNotNull() {
+            addCriterion("NickName is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameEqualTo(String value) {
+            addCriterion("NickName =", value, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameNotEqualTo(String value) {
+            addCriterion("NickName <>", value, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameGreaterThan(String value) {
+            addCriterion("NickName >", value, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameGreaterThanOrEqualTo(String value) {
+            addCriterion("NickName >=", value, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameLessThan(String value) {
+            addCriterion("NickName <", value, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameLessThanOrEqualTo(String value) {
+            addCriterion("NickName <=", value, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameLike(String value) {
+            addCriterion("NickName like", value, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameNotLike(String value) {
+            addCriterion("NickName not like", value, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameIn(List<String> values) {
+            addCriterion("NickName in", values, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameNotIn(List<String> values) {
+            addCriterion("NickName not in", values, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameBetween(String value1, String value2) {
+            addCriterion("NickName between", value1, value2, "nickname");
+            return (Criteria) this;
+        }
+
+        public Criteria andNicknameNotBetween(String value1, String value2) {
+            addCriterion("NickName not between", value1, value2, "nickname");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

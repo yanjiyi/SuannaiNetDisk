@@ -123,4 +123,16 @@ public class UserController {
 
         return message;
     }
+
+    @RequestMapping(value = "/api/getUser")
+    public User getUser(HttpSession session)
+    {
+        if(sysConfigService.ConfigIsAllow("AllowGetUser"))
+        {
+            User user = (User) session.getAttribute("user");
+            return user;
+        }
+
+        return null;
+    }
 }

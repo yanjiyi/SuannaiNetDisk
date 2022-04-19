@@ -15,13 +15,19 @@ public class User {
 
     private Boolean status;
 
-    public User(Integer id, String username, String password, Date lastlogintime, String lastloginip, Boolean status) {
+    private Integer imgserviceid;
+
+    private String nickname;
+
+    public User(Integer id, String username, String password, Date lastlogintime, String lastloginip, Boolean status, Integer imgserviceid, String nickname) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.lastlogintime = lastlogintime;
         this.lastloginip = lastloginip;
         this.status = status;
+        this.imgserviceid = imgserviceid;
+        this.nickname = nickname;
     }
 
     public User() {
@@ -74,5 +80,21 @@ public class User {
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Integer getImgserviceid() {
+        return imgserviceid;
+    }
+
+    public void setImgserviceid(Integer imgserviceid) {
+        this.imgserviceid = imgserviceid;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname == null ? null : nickname.trim();
     }
 }

@@ -9,6 +9,8 @@
       <arg column="LastLoginTime" javaType="java.util.Date" jdbcType="TIMESTAMP" />
       <arg column="LastLoginIP" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="Status" javaType="java.lang.Boolean" jdbcType="BIT" />
+      <arg column="ImgServiceID" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="NickName" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -70,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, UserName, Password, LastLoginTime, LastLoginIP, Status
+    ID, UserName, Password, LastLoginTime, LastLoginIP, Status, ImgServiceID, NickName
   </sql>
   <select id="selectByExample" parameterType="com.suannai.netdisk.model.UserExample" resultMap="BaseResultMap">
     select
@@ -105,11 +107,11 @@
   </delete>
   <insert id="insert" parameterType="com.suannai.netdisk.model.User">
     insert into users (ID, UserName, Password, 
-      LastLoginTime, LastLoginIP, Status
-      )
+      LastLoginTime, LastLoginIP, Status, 
+      ImgServiceID, NickName)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{lastlogintime,jdbcType=TIMESTAMP}, #{lastloginip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}
-      )
+      #{lastlogintime,jdbcType=TIMESTAMP}, #{lastloginip,jdbcType=VARCHAR}, #{status,jdbcType=BIT}, 
+      #{imgserviceid,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.suannai.netdisk.model.User">
     insert into users
@@ -132,6 +134,12 @@
       <if test="status != null">
         Status,
       </if>
+      <if test="imgserviceid != null">
+        ImgServiceID,
+      </if>
+      <if test="nickname != null">
+        NickName,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -151,6 +159,12 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=BIT},
+      </if>
+      <if test="imgserviceid != null">
+        #{imgserviceid,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -181,6 +195,12 @@
       <if test="record.status != null">
         Status = #{record.status,jdbcType=BIT},
       </if>
+      <if test="record.imgserviceid != null">
+        ImgServiceID = #{record.imgserviceid,jdbcType=INTEGER},
+      </if>
+      <if test="record.nickname != null">
+        NickName = #{record.nickname,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -193,7 +213,9 @@
       Password = #{record.password,jdbcType=VARCHAR},
       LastLoginTime = #{record.lastlogintime,jdbcType=TIMESTAMP},
       LastLoginIP = #{record.lastloginip,jdbcType=VARCHAR},
-      Status = #{record.status,jdbcType=BIT}
+      Status = #{record.status,jdbcType=BIT},
+      ImgServiceID = #{record.imgserviceid,jdbcType=INTEGER},
+      NickName = #{record.nickname,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -216,6 +238,12 @@
       <if test="status != null">
         Status = #{status,jdbcType=BIT},
       </if>
+      <if test="imgserviceid != null">
+        ImgServiceID = #{imgserviceid,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null">
+        NickName = #{nickname,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}
   </update>
@@ -225,7 +253,9 @@
       Password = #{password,jdbcType=VARCHAR},
       LastLoginTime = #{lastlogintime,jdbcType=TIMESTAMP},
       LastLoginIP = #{lastloginip,jdbcType=VARCHAR},
-      Status = #{status,jdbcType=BIT}
+      Status = #{status,jdbcType=BIT},
+      ImgServiceID = #{imgserviceid,jdbcType=INTEGER},
+      NickName = #{nickname,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
