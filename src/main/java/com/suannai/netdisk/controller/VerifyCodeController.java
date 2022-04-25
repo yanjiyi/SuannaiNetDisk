@@ -72,7 +72,7 @@ public class VerifyCodeController {
             //将文字旋转指定角度
             Graphics2D g2d_word = (Graphics2D) g;
             AffineTransform trans = new AffineTransform();
-            trans.rotate(random.nextInt(45) * 3.14 / 180, 15 * i + 10, 7);
+            trans.rotate(random.nextInt(30) * 3.14 / 180, 15 * i + 10, 7);
             //缩放文字
             float scaleSize = random.nextFloat() + 0.8f;
             if (scaleSize > 1.1f) scaleSize = 1f;
