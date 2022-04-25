@@ -7,6 +7,7 @@ import com.suannai.netdisk.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -557,6 +558,7 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/api/querySysFileTab")
+    @ResponseBody
     public SysFileTab querySysFileTab(@RequestParam("id") int id,HttpSession session,HttpServletResponse response) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQuerySysFileTab"))
         {
@@ -572,6 +574,7 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/api/queryService")
+    @ResponseBody
     public Service queryService(@RequestParam("id") int id, HttpServletResponse response, HttpSession session) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQueryService"))
         {
