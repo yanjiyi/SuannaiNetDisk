@@ -252,7 +252,8 @@ public class MainSvrController {
                                 uploadFileTab.setFilename(file.getOriginalFilename());
                                 uploadFileTab.setFilesize(file.getSize());
                                 uploadFileTab.setInuse(true);
-                                uploadFileTab.setLocation(uploadPath + file.getOriginalFilename());
+                                uploadFileTab.setLocation(uploadPath + File.separator + file.getOriginalFilename());
+                                uploadFileTab.setRootmask(false);
 
                                 if (sysFileTabService.addRecord(uploadFileTab)) {
                                     Service userService = new Service();
@@ -554,7 +555,7 @@ public class MainSvrController {
         return message;
     }
 
-    @RequestMapping(value = "/querySysFileTab")
+    @RequestMapping(value = "/api/querySysFileTab")
     public SysFileTab querySysFileTab(@RequestParam("id") int id,HttpSession session,HttpServletResponse response) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQuerySysFileTab"))
         {
@@ -568,7 +569,7 @@ public class MainSvrController {
         return null;
     }
 
-    @RequestMapping(value = "/queryService")
+    @RequestMapping(value = "/api/queryService")
     public Service queryService(@RequestParam("id") int id,HttpServletResponse response,HttpSession session) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQueryService"))
         {
