@@ -556,13 +556,13 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/api/querySysFileTab")
-    public SysFileTab querySysFileTab(@RequestParam("id") int id,HttpSession session,HttpServletResponse response) throws IOException {
+    public SysFileTab querySysFileTab(@RequestParam("id") String id,HttpSession session,HttpServletResponse response) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQuerySysFileTab"))
         {
             User user = (User) session.getAttribute("user");
             if(user!=null)
             {
-                return sysFileTabService.queryByID(id);
+                return sysFileTabService.queryByID(Integer.parseInt(id));
             }else response.sendRedirect("/index.html");
         }
 
@@ -570,13 +570,13 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/api/queryService")
-    public Service queryService(@RequestParam("id") int id,HttpServletResponse response,HttpSession session) throws IOException {
+    public Service queryService(@RequestParam("id") String id,HttpServletResponse response,HttpSession session) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQueryService"))
         {
             User user = (User) session.getAttribute("user");
             if(user!=null)
             {
-                Service result = mainSvrService.queryByID(id);
+                Service result = mainSvrService.queryByID(Integer.parseInt(id));
                 if(result!=null)
                 {
                     if(Objects.equals(result.getUserid(), user.getId()))
