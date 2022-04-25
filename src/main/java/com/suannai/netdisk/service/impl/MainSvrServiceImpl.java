@@ -52,6 +52,7 @@ public class MainSvrServiceImpl implements MainSvrService {
     public Service getUserDirRecord(User user, String realPath) {
         if(realPath.charAt(0)=='/') {
             List<String> dirList = GetDirList(realPath);
+            System.out.println("DirList : " + dirList);
             SysFileTab rootRecord = sysFileTabService.GetRoot();
             if (rootRecord != null) {
                 Service rootService = null;
@@ -108,6 +109,7 @@ public class MainSvrServiceImpl implements MainSvrService {
                 return curService;
             }
         }
+
         return null;
     }
 
