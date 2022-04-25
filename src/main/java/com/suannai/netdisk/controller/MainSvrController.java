@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
@@ -556,13 +557,13 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/api/querySysFileTab")
-    public SysFileTab querySysFileTab(@RequestParam("id") String id,HttpSession session,HttpServletResponse response) throws IOException {
+    public SysFileTab querySysFileTab(HttpServletRequest request,HttpSession session,HttpServletResponse response) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQuerySysFileTab"))
         {
             User user = (User) session.getAttribute("user");
             if(user!=null)
             {
-                return sysFileTabService.queryByID(Integer.parseInt(id));
+                return sysFileTabService.queryByID(Integer.parseInt(request.getParameter("id")));
             }else response.sendRedirect("/index.html");
         }
 
@@ -570,13 +571,13 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/api/queryService")
-    public Service queryService(@RequestParam("id") String id,HttpServletResponse response,HttpSession session) throws IOException {
+    public Service queryService(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQueryService"))
         {
             User user = (User) session.getAttribute("user");
             if(user!=null)
             {
-                Service result = mainSvrService.queryByID(Integer.parseInt(id));
+                Service result = mainSvrService.queryByID(Integer.parseInt(request.getParameter("id")));
                 if(result!=null)
                 {
                     if(Objects.equals(result.getUserid(), user.getId()))
