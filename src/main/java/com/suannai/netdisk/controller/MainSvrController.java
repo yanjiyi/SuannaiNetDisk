@@ -560,6 +560,7 @@ public class MainSvrController {
     public SysFileTab querySysFileTab(@RequestParam("id") int id,HttpSession session,HttpServletResponse response) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQuerySysFileTab"))
         {
+            System.out.println("ID : "+id);
             User user = (User) session.getAttribute("user");
             if(user!=null)
             {
@@ -574,6 +575,7 @@ public class MainSvrController {
     public Service queryService(@RequestParam("id") int id, HttpServletResponse response, HttpSession session) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowQueryService"))
         {
+            System.out.println("ID : "+id);
             User user = (User) session.getAttribute("user");
             if(user!=null)
             {
