@@ -203,10 +203,7 @@ public class MainSvrServiceImpl implements MainSvrService {
         criteria.andSysfilerecordidEqualTo(service.getSysfilerecordid());
         criteria.andUseridEqualTo(service.getUserid());
         criteria.andUserfilenameEqualTo(service.getUserfilename());
-        criteria.andDirmaskEqualTo(service.getDirmask());
         criteria.andParentidEqualTo(service.getParentid());
-        criteria.andUploaddateEqualTo(service.getUploaddate());
-        criteria.andStatusEqualTo(service.getStatus());
 
         return serviceMapper.selectByExample(example).get(0);
     }
