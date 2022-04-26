@@ -111,7 +111,7 @@ public class MainSvrController {
                 String CurDir = (String) session.getAttribute("CurWorkDir");
                 if (CurDir != null) {
                     if (!CurDir.equals("") && (CurDir.charAt(0) == '/')) {
-                        Service CurService = mainSvrService.getUserDirRecord(user, CurDir + "/" + where);
+                        Service CurService = mainSvrService.getUserDirRecord(user, where);
                         if (CurService != null) {
                             if(CurService.getDirmask())
                             {
