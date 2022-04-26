@@ -192,10 +192,14 @@ public class MainSvrServiceImpl implements MainSvrService {
 
     protected List<String> GetDirList(String Path)
     {
-        String[] list = Path.split("/");
-        List<String> result = new ArrayList<>();
-        Collections.addAll(result, list);
+        String[] split = Path.split("/");
+        ArrayList<String> directories = new ArrayList<>(split.length);
+        for(String dir : split)
+        {
+            if(dir.length()>0)
+                directories.add(dir);
+        }
 
-        return result;
+        return directories;
     }
 }
