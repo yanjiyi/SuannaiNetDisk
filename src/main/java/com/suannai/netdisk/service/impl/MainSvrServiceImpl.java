@@ -89,6 +89,11 @@ public class MainSvrServiceImpl implements MainSvrService {
                 }
 
                 Service curService = rootService;
+                if(realPath.equals("/"))
+                {
+                    return curService;
+                }
+
                 for (String cur : dirList) {
                     ServiceExample example = new ServiceExample();
                     ServiceExample.Criteria criteria = example.createCriteria();
