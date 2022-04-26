@@ -242,6 +242,7 @@ public class MainSvrController {
                         if (uploadPath != null) {
                             if (!uploadPath.equals("")) {
                                 File dir = new File(uploadPath + File.separator + file.getOriginalFilename());
+                                System.out.println("Save To : " + dir.getPath());
                                 if (!dir.exists()) {
                                     dir.mkdirs();
                                 }
