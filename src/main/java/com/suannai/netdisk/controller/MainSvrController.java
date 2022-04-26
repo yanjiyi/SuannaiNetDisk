@@ -116,7 +116,8 @@ public class MainSvrController {
                             if(CurService.getDirmask())
                             {
                                 session.setAttribute("curService", CurService);
-                                session.setAttribute("CurWorkDir", CurDir + "/" + where);
+
+                                session.setAttribute("CurWorkDir", where);
                                 message.setErrorMsg("操作成功！");
                                 message.setStatusCode(2000);
                                 return message;
