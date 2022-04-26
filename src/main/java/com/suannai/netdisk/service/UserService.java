@@ -13,4 +13,5 @@ public interface UserService {
     User QueryByID(int ID);
 
     User QueryByName(String name);
+    boolean updateUser(User user);
 }

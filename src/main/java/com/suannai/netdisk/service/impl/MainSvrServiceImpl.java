@@ -195,6 +195,22 @@ public class MainSvrServiceImpl implements MainSvrService {
         return serviceMapper.selectByExample(example);
     }
 
+    @Override
+    public Service queryUniqueService(Service service) {
+        ServiceExample example = new ServiceExample();
+        ServiceExample.Criteria criteria = example.createCriteria();
+
+        criteria.andSysfilerecordidEqualTo(service.getSysfilerecordid());
+        criteria.andUseridEqualTo(service.getUserid());
+        criteria.andUserfilenameEqualTo(service.getUserfilename());
+        criteria.andDirmaskEqualTo(service.getDirmask());
+        criteria.andParentidEqualTo(service.getParentid());
+        criteria.andUploaddateEqualTo(service.getUploaddate());
+        criteria.andStatusEqualTo(service.getStatus());
+
+        return serviceMapper.selectByExample(example).get(0);
+    }
+
     protected List<String> GetDirList(String Path)
     {
         String[] split = Path.split("/");

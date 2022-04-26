@@ -99,5 +99,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByExample(example).get(0);
     }
 
+    @Override
+    public boolean updateUser(User user) {
+        return userMapper.updateByPrimaryKey(user) == 1;
+    }
+
 
 }

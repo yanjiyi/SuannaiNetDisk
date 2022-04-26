@@ -18,4 +18,6 @@ public interface MainSvrService {
     boolean copyService(Service service,User user,Service workDir);
 
     List<Service> getWithSysFileTabID(int ID);
+
+    Service queryUniqueService(Service service);
 }
