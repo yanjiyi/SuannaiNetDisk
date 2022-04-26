@@ -247,7 +247,13 @@ public class MainSvrController {
                                     dir.mkdirs();
                                 }
 
-                                file.transferTo(dir);
+                                File nFile = new File(uploadPath + File.separator + file.getOriginalFilename() + File.separator + fileName);
+                                if(file.getSize()==0)
+                                {
+                                    nFile.createNewFile();
+                                }else{
+                                    file.transferTo(dir);
+                                }
 
                                 SysFileTab uploadFileTab = new SysFileTab();
                                 uploadFileTab.setFilehash(filehash);
