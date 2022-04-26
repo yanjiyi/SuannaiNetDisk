@@ -162,7 +162,7 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/api/upload")
-    public Message upload(@RequestParam("file") MultipartFile file, @RequestParam("fileHash") String filehash, @RequestParam("isDir") Boolean isDir, @RequestParam("dirName") String dirname, HttpSession session, HttpServletResponse response) throws IOException {
+    public Message upload(@RequestParam("file") MultipartFile file, @RequestParam("fileHash") String filehash, @RequestParam("isDir") Boolean isDir, @RequestParam("dirName") String dirname,@RequestParam("fileName") String fileName, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
         message.setErrorMsg("操作成功！");
         message.setOperation("上传文件");
@@ -224,7 +224,7 @@ public class MainSvrController {
                         service.setSysfilerecordid(sysFileTab.getId());
                         service.setUploaddate(new Date());
                         service.setStatus(true);
-                        service.setUserfilename(file.getOriginalFilename());
+                        service.setUserfilename(fileName);
                         service.setUserid(user.getId());
 
                         if (mainSvrService.addFile(service)) {
@@ -250,7 +250,7 @@ public class MainSvrController {
 
                                 SysFileTab uploadFileTab = new SysFileTab();
                                 uploadFileTab.setFilehash(filehash);
-                                uploadFileTab.setFilename(file.getOriginalFilename());
+                                uploadFileTab.setFilename(fileName);
                                 uploadFileTab.setFilesize(file.getSize());
                                 uploadFileTab.setInuse(true);
                                 uploadFileTab.setLocation(uploadPath + File.separator + file.getOriginalFilename());
@@ -263,7 +263,7 @@ public class MainSvrController {
                                         userService.setUserid(user.getId());
                                         userService.setStatus(true);
                                         userService.setDirmask(false);
-                                        userService.setUserfilename(file.getOriginalFilename());
+                                        userService.setUserfilename(fileName);
                                         userService.setUploaddate(new Date());
                                         userService.setSysfilerecordid(pointerRecord.getId());
                                         userService.setParentid(currentWorkService.getId());
