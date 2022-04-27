@@ -35,12 +35,14 @@ public class MainSvrServiceImpl implements MainSvrService {
 
     @Override
     public boolean deleteFile(Service service) {
+        boolean deleted = serviceMapper.deleteByPrimaryKey(service.getId()) == 1;
+
         if(sysFileTabService.deleteIfUnUse(service.getSysfilerecordid()))
         {
             System.out.println("System File RecordID Has Been Erase : " + service.getSysfilerecordid());
         }
 
-        return serviceMapper.deleteByPrimaryKey(service.getId()) == 1;
+        return deleted;
     }
 
     @Override
