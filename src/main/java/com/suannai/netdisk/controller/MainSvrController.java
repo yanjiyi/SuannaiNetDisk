@@ -18,6 +18,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -260,7 +261,7 @@ public class MainSvrController {
                                 uploadFileTab.setFilename(fileName);
                                 uploadFileTab.setFilesize(file.getSize());
                                 uploadFileTab.setInuse(true);
-                                uploadFileTab.setLocation(uploadPath + File.separator + file.getOriginalFilename());
+                                uploadFileTab.setLocation(uploadPath + File.separator + UUID.randomUUID() + File.separator + file.getOriginalFilename());
                                 uploadFileTab.setRootmask(false);
 
                                 if (sysFileTabService.addRecord(uploadFileTab)) {
