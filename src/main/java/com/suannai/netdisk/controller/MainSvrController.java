@@ -386,9 +386,7 @@ public class MainSvrController {
                 if (dirContext.isEmpty()) {
                     zipOutputStream.putNextEntry(new ZipEntry(base + curTarget.getUserfilename() + File.separator));
                 } else {
-                    for (Service dirService : dirContext) {
-                        ProcessService(user, zipOutputStream, dirService, base + File.separator + curTarget.getUserfilename());
-                    }
+                    ProcessService(user, zipOutputStream, curTarget, base + File.separator + curTarget.getUserfilename());
                 }
             }
         }
