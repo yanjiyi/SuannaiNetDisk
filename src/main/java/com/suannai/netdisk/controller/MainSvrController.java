@@ -262,13 +262,14 @@ public class MainSvrController {
 
                         if (uploadPath != null) {
                             if (!uploadPath.equals("")) {
-                                File dir = new File(uploadPath + File.separator + file.getOriginalFilename());
+                                UUID uuid = UUID.randomUUID();
+                                File dir = new File(uploadPath + File.separator + uuid + File.separator + file.getOriginalFilename());
                                 System.out.println("Save To : " + dir.getPath());
                                 if (!dir.exists()) {
                                     dir.mkdirs();
                                 }
 
-                                File nFile = new File(uploadPath + File.separator + file.getOriginalFilename() + File.separator + fileName);
+                                File nFile = new File(uploadPath + File.separator + uuid + File.separator + file.getOriginalFilename() + File.separator + fileName);
                                 if(file.getSize()==0)
                                 {
                                     nFile.createNewFile();
@@ -281,7 +282,7 @@ public class MainSvrController {
                                 uploadFileTab.setFilename(fileName);
                                 uploadFileTab.setFilesize(file.getSize());
                                 uploadFileTab.setInuse(true);
-                                uploadFileTab.setLocation(uploadPath + File.separator + UUID.randomUUID() + File.separator + file.getOriginalFilename());
+                                uploadFileTab.setLocation(uploadPath + File.separator + uuid + File.separator + file.getOriginalFilename());
                                 uploadFileTab.setRootmask(false);
 
                                 if (sysFileTabService.addRecord(uploadFileTab)) {

@@ -231,8 +231,9 @@ public class UserController {
                             String uploadPath = sysConfigService.GetConfig("uploadPath").getValue();
 
                             if (uploadPath != null) {
+                                UUID uuid = UUID.randomUUID();
                                 if (!uploadPath.equals("")) {
-                                    File dir = new File(uploadPath + File.separator + imgFile.getOriginalFilename());
+                                    File dir = new File(uploadPath + File.separator + uuid + File.separator + imgFile.getOriginalFilename());
                                     System.out.println("Save To : " + dir.getPath());
                                     if (!dir.exists()) {
                                         dir.mkdirs();
@@ -245,7 +246,7 @@ public class UserController {
                                     uploadFileTab.setFilename(fileName);
                                     uploadFileTab.setFilesize(imgFile.getSize());
                                     uploadFileTab.setInuse(true);
-                                    uploadFileTab.setLocation(uploadPath + File.separator + UUID.randomUUID() + File.separator + imgFile.getOriginalFilename());
+                                    uploadFileTab.setLocation(uploadPath + File.separator + uuid + File.separator + imgFile.getOriginalFilename());
                                     uploadFileTab.setRootmask(false);
 
                                     if (sysFileTabService.addRecord(uploadFileTab)) {
