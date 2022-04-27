@@ -23,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 
 @RestController
 public class UserController {
@@ -244,7 +245,7 @@ public class UserController {
                                     uploadFileTab.setFilename(fileName);
                                     uploadFileTab.setFilesize(imgFile.getSize());
                                     uploadFileTab.setInuse(true);
-                                    uploadFileTab.setLocation(uploadPath + File.separator + imgFile.getOriginalFilename());
+                                    uploadFileTab.setLocation(uploadPath + File.separator + UUID.randomUUID() + File.separator + imgFile.getOriginalFilename());
                                     uploadFileTab.setRootmask(false);
 
                                     if (sysFileTabService.addRecord(uploadFileTab)) {
