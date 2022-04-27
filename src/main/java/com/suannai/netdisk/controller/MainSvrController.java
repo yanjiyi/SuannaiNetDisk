@@ -269,10 +269,9 @@ public class MainSvrController {
                                     dir.mkdirs();
                                 }
 
-                                File nFile = new File(uploadPath + File.separator + uuid + File.separator + file.getOriginalFilename());
                                 if(file.getSize()==0)
                                 {
-                                    nFile.createNewFile();
+                                    dir.createNewFile();
                                 }else{
                                     file.transferTo(dir);
                                 }
