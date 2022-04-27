@@ -405,9 +405,9 @@ public class MainSvrController {
             } else {
                 List<Service> dirContext = mainSvrService.getChildren(user, curTarget);
                 if (dirContext.isEmpty()) {
-                    zipOutputStream.putNextEntry(new ZipEntry(base + File.separator + curTarget.getUserfilename() + File.separator));
+                    zipOutputStream.putNextEntry(new ZipEntry(base +  curTarget.getUserfilename() + File.separator));
                 } else {
-                    ProcessService(user, zipOutputStream, curTarget, base + File.separator + curTarget.getUserfilename() + File.separator);
+                    ProcessService(user, zipOutputStream, curTarget, base +  curTarget.getUserfilename() + File.separator);
                 }
             }
         }
