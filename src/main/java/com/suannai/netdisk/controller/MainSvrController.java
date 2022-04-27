@@ -372,7 +372,7 @@ public class MainSvrController {
                 FileInputStream fis = new FileInputStream(sysFileTabService.queryByID(curTarget.getSysfilerecordid()).getLocation());
                 BufferedInputStream bis = new BufferedInputStream(fis);
 
-                zipOutputStream.putNextEntry(new ZipEntry(base + File.separator + curTarget.getUserfilename()));
+                zipOutputStream.putNextEntry(new ZipEntry(base + curTarget.getUserfilename()));
                 int len;
                 byte[] buf = new byte[1024];
                 while ((len = bis.read(buf, 0, 1024)) != -1) {
@@ -384,9 +384,9 @@ public class MainSvrController {
             } else {
                 List<Service> dirContext = mainSvrService.getChildren(user, curTarget);
                 if (dirContext.isEmpty()) {
-                    zipOutputStream.putNextEntry(new ZipEntry(base + curTarget.getUserfilename() + File.separator));
+                    zipOutputStream.putNextEntry(new ZipEntry(base + curTarget.getUserfilename()));
                 } else {
-                    ProcessService(user, zipOutputStream, curTarget, base + File.separator + curTarget.getUserfilename());
+                    ProcessService(user, zipOutputStream, curTarget, base + curTarget.getUserfilename());
                 }
             }
         }
