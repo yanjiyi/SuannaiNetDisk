@@ -598,4 +598,34 @@ public class MainSvrController {
 
         return null;
     }
+
+    @RequestMapping(value = "/api/deleteService")
+    public void deleteService(@RequestParam("id") int id,HttpServletResponse response,HttpSession session) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AllowDeleteService"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                Service service = mainSvrService.queryByID(id);
+                if(service!=null)
+                {
+                    deleteServiceCall(service,user);
+                }
+            }else response.sendRedirect("/index.html");
+        }
+    }
+
+    protected void deleteServiceCall(Service service,User user)
+    {
+        if(service.getDirmask())
+        {
+            List<Service> subs = mainSvrService.getChildren(user,service);
+            for(Service sub : subs)
+            {
+                deleteServiceCall(sub,user);
+            }
+        }
+
+        mainSvrService.deleteFile(service);
+    }
 }
