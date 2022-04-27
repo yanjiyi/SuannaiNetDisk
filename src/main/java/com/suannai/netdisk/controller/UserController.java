@@ -187,6 +187,11 @@ public class UserController {
             {
                 if (sysConfigService.ConfigIsAllow("AllowUpload")) {
                     //Find User Root Service
+                    if(user.getImgserviceid()>0)
+                    {
+                        mainSvrService.deleteFile(mainSvrService.queryByID(user.getImgserviceid()));
+                    }
+
                     Service currentWorkService = mainSvrService.getUserDirRecord(user, "/");
                     if(currentWorkService!=null)
                     {

@@ -48,10 +48,30 @@ public class MainSvrController {
                 if (service == null) {
                     String curDir = (String) session.getAttribute("CurWorkDir");
                     if (curDir != null) {
-                        return mainSvrService.getChildren(user, curDir);
+//                        return mainSvrService.getChildren(user, curDir);
+                        List<Service> children = mainSvrService.getChildren(user, curDir);
+                        for(int i=0;i<children.size();i++)
+                        {
+                            if(Objects.equals(user.getImgserviceid(), children.get(i).getId()))
+                            {
+                                children.remove(i);
+                            }
+                        }
+
+                        return children;
                     }
                 } else {
-                    return mainSvrService.getChildren(user, service);
+//                    return mainSvrService.getChildren(user, service);
+                    List<Service> children = mainSvrService.getChildren(user, service);
+                    for(int i=0;i<children.size();i++)
+                    {
+                        if(Objects.equals(user.getImgserviceid(), children.get(i).getId()))
+                        {
+                            children.remove(i);
+                        }
+                    }
+
+                    return children;
                 }
             }
         } else {
