@@ -649,4 +649,32 @@ public class MainSvrController {
 
         mainSvrService.deleteFile(service);
     }
+
+    @RequestMapping(value = "/api/api/moveTo")
+    public String moveTo(@RequestParam("target") int target,@RequestParam("where") int where,HttpServletResponse response,HttpSession session) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AllowMoveTo"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                Service targetSvr = mainSvrService.queryByID(target);
+                Service whereSvr = mainSvrService.queryByID(where);
+
+                if(targetSvr!=null&&whereSvr!=null)
+                {
+                    targetSvr.setParentid(whereSvr.getId());
+                    if(mainSvrService.updateService(targetSvr))
+                    {
+                        return "移动成功！";
+                    }else {
+                        return  "移动失败！更新数据库记录失败！";
+                    }
+                }else {
+                    return "被移动目标或移动目的地无效！";
+                }
+            }else response.sendRedirect("/index.html");
+        }
+
+        return "管理员禁止用户移动文件或文件夹位置！";
+    }
 }

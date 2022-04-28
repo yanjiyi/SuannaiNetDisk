@@ -20,4 +20,6 @@ public interface MainSvrService {
     List<Service> getWithSysFileTabID(int ID);
 
     Service queryUniqueService(Service service);
+
+    boolean updateService(Service service);
 }

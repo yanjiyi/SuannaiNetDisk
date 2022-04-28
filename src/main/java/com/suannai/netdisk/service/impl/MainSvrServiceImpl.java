@@ -210,6 +210,11 @@ public class MainSvrServiceImpl implements MainSvrService {
         return serviceMapper.selectByExample(example).get(0);
     }
 
+    @Override
+    public boolean updateService(Service service) {
+        return serviceMapper.updateByPrimaryKey(service) == 1;
+    }
+
     protected List<String> GetDirList(String Path)
     {
         String[] split = Path.split("/");
