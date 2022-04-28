@@ -96,7 +96,13 @@ public class UserServiceImpl implements UserService {
         UserExample.Criteria criteria = example.createCriteria();
         criteria.andUsernameEqualTo(name);
 
-        return userMapper.selectByExample(example).get(0);
+        List<User> users = userMapper.selectByExample(example);
+        if(users.isEmpty())
+        {
+            return null;
+        }
+
+        return users.get(0);
     }
 
     @Override
