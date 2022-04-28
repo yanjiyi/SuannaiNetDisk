@@ -650,7 +650,7 @@ public class MainSvrController {
         mainSvrService.deleteFile(service);
     }
 
-    @RequestMapping(value = "/api/api/moveTo")
+    @RequestMapping(value = "/api/moveTo")
     public String moveTo(@RequestParam("target") int target,@RequestParam("where") int where,HttpServletResponse response,HttpSession session) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowMoveTo"))
         {
