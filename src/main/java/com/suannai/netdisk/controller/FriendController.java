@@ -190,7 +190,7 @@ public class FriendController {
         return message;
     }
 
-    @RequestMapping(value = "/listMyFriends")
+    @RequestMapping(value = "/api/listMyFriends")
     public List<Friend> listMyFriends(HttpServletResponse response, HttpSession session)
     {
         if(sysConfigService.ConfigIsAllow("ListMyFriends"))
