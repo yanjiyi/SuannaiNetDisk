@@ -65,7 +65,11 @@ public class TaskServiceImpl implements TaskService {
         criteria.andIdEqualTo(ID);
         criteria.andUseridEqualTo(UserID);
 
-        return taskMapper.selectByExample(example).get(0);
+        List<Task> tasks = taskMapper.selectByExample(example);
+        if(tasks.isEmpty())
+            return null;
+
+        return tasks.get(0);
     }
 
     @Override
