@@ -658,7 +658,11 @@ public class MainSvrController {
             if(user!=null)
             {
                 Service targetSvr = mainSvrService.queryByID(target);
-                Service whereSvr = mainSvrService.queryByID(where);
+                Service whereSvr = null;
+                if(where>0)
+                    whereSvr = mainSvrService.queryByID(where);
+                else
+                    whereSvr = mainSvrService.GetUserRoot(user);
 
                 if(targetSvr!=null&&whereSvr!=null)
                 {

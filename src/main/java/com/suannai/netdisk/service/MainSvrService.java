@@ -22,4 +22,5 @@ public interface MainSvrService {
     Service queryUniqueService(Service service);
 
     boolean updateService(Service service);
+    Service GetUserRoot(User user);
 }

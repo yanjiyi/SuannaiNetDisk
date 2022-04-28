@@ -215,6 +215,16 @@ public class MainSvrServiceImpl implements MainSvrService {
         return serviceMapper.updateByPrimaryKey(service) == 1;
     }
 
+    @Override
+    public Service GetUserRoot(User user) {
+        ServiceExample example = new ServiceExample();
+        ServiceExample.Criteria criteria = example.createCriteria();
+        criteria.andUseridEqualTo(user.getId());
+        criteria.andParentidEqualTo(-1);
+
+        return serviceMapper.selectByExample(example).get(0);
+    }
+
     protected List<String> GetDirList(String Path)
     {
         String[] split = Path.split("/");
