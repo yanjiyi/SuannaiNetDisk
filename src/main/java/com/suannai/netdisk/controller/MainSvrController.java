@@ -39,6 +39,9 @@ public class MainSvrController {
     @Autowired
     SysConfigService sysConfigService;
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/api/listCur")
     public List<Service> listCur(HttpSession session, HttpServletResponse response) throws IOException {
         User user = (User) session.getAttribute("user");
@@ -414,9 +417,8 @@ public class MainSvrController {
     }
 
     @RequestMapping(value = "/api/share")
-    public Message Shader(ShareRequestData requestData, HttpSession session, HttpServletResponse response) throws IOException {
+    public Message Shader(@RequestParam("id") int id, @RequestParam("toWho") int who,HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
-
 
         if (sysConfigService.ConfigIsAllow("AllowShare")) {
             User user = (User) session.getAttribute("user");
@@ -429,13 +431,22 @@ public class MainSvrController {
                     message.setErrorMsg("无效事务类型！");
                 }
 
+                Service service = mainSvrService.queryByID(id);
+                User friend = userService.QueryByID(who);
+                if(service==null||friend==null)
+                {
+                    message.setStatusCode(5900);
+                    message.setErrorMsg("无效参数！");
+                    return message;
+                }
+
                 Task task = new Task();
                 task.setIdle(true);
                 task.setTaskstatus(false);
                 task.setUserid(user.getId());
-                task.setAdditional(requestData.getService().getId());
+                task.setAdditional(service.getId());
                 task.setDate(new Date());
-                task.setTargetid(requestData.getUserid());
+                task.setTargetid(friend.getId());
                 task.setTasktype(shareType);
 
                 if (taskService.createTask(task)) {
