@@ -70,7 +70,7 @@ create table `users`(
   `LastLoginTime` datetime,
   `LastLoginIP` varchar(255) character set utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `Status` bit(1) NOT NULL default 1,
-  `ImgServiceID` int default -1,
+  `ImgServiceID` NOT NULL int default -1,
   `NickName` varchar(50) default 'test'
 )ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
