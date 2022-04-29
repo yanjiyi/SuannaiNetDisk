@@ -23,7 +23,7 @@ public class TaskTypeServiceImpl implements TaskTypeService {
     public int GetTaskID(String name) {
         TaskTypeExample example = new TaskTypeExample();
         TaskTypeExample.Criteria criteria = example.createCriteria();
-        criteria.andTasknameNotEqualTo(name);
+        criteria.andTasknameEqualTo(name);
         return taskTypeMapper.selectByExample(example).get(0).getId();
     }
 
