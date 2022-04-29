@@ -1,7 +1,6 @@
 package com.suannai.netdisk.controller;
 
 import com.suannai.netdisk.dao.Message;
-import com.suannai.netdisk.dao.ShareRequestData;
 import com.suannai.netdisk.model.*;
 import com.suannai.netdisk.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
