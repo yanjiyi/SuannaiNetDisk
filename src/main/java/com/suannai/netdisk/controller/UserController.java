@@ -98,6 +98,8 @@ public class UserController {
                         message.setErrorMsg("操作失败！或用户已存在！");
                     }
 
+                    mainSvrService.getUserDirRecord(userService.QueryByName(user.getUsername()),"/");
+
                     return message;
                 } else {
                     message.setErrorMsg("已被管理员禁止注册！");
