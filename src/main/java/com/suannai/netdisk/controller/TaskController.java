@@ -63,7 +63,7 @@ public class TaskController {
         return message;
     }
 
-    @RequestMapping(value = "/listMyTask")
+    @RequestMapping(value = "/api/listMyTask")
     public List<Task> listMyTask(HttpSession session,HttpServletResponse response) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowListMyTask"))
         {
@@ -77,7 +77,7 @@ public class TaskController {
         return null;
     }
 
-    @RequestMapping(value = "/listToMyTask")
+    @RequestMapping(value = "/api/listToMyTask")
     public List<Task> listToMyTask(HttpSession session,HttpServletResponse response) throws IOException {
         if(sysConfigService.ConfigIsAllow("AllowListToMyTask"))
         {
@@ -91,7 +91,7 @@ public class TaskController {
         return null;
     }
 
-    @RequestMapping(value = "/getTaskType")
+    @RequestMapping(value = "/api/getTaskType")
     public String getTaskType(@RequestParam("taskID") int ID)
     {
         if(sysConfigService.ConfigIsAllow("AllowGetTaskType"))
