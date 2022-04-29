@@ -92,6 +92,7 @@ public class UserController {
                     User user = new User();
                     user.setUsername(requstData.getUsername());
                     user.setPassword(requstData.getPassword());
+                    user.setImgserviceid(-1);
 
                     if (!userService.createUser(user)) {
                         message.setStatusCode(4000);
