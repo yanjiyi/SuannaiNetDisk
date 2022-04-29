@@ -309,4 +309,18 @@ public class UserController {
         }
         return message;
     }
+
+    @RequestMapping(value = "/api/getUserName")
+    public String getUserName(@RequestParam("id") int id,HttpSession session,HttpServletResponse response) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AllowGetUserName"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                User target = userService.QueryByID(id);
+                return target != null ? target.getUsername() : "无此用户";
+            }else response.sendRedirect("/index.html");
+        }
+        return "";
+    }
 }

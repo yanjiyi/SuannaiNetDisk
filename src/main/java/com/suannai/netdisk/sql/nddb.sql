@@ -135,5 +135,7 @@ insert into `sysconfig`(Name,Value) value("AllowMoveTo","YES");
 insert into `sysconfig`(Name,Value) value("SysFileTabAllowErase","YES");
 insert into `sysconfig`(Name,Value) value("AllowDeleteFriend","YES");
 insert into `sysconfig`(Name,Value) value("AlloListAllTaskType","YES");
+insert into `sysconfig`(Name,Value) value("AllowGetUserName","YES");
+
 
 insert into `sysconfig`(Name,Value) value("uploadPath","/data/netdisk/upload");
