@@ -17,7 +17,7 @@ create table `sysfiletab`(
   `ID` int primary key auto_increment,
   `FileName` varchar(255) character set utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `FileHash` varchar(32) character set utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL UNIQUE,
-  `Location` varchar(255) character set utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `Location` varchar(9999) character set utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `FileSize` bigint NOT NULL,
   `InUse` bit(1) NOT NULL,
   `RootMask` bit(1) NOT NULL default 0x0
