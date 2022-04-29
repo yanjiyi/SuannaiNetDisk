@@ -204,4 +204,30 @@ public class FriendController {
 
         return null;
     }
+
+    @RequestMapping(value = "/api/deleteFriends")
+    public Message deleteFriends(@RequestParam("id") int id,HttpSession session,HttpServletResponse response) throws IOException {
+        Message message = new Message();
+
+        if(sysConfigService.ConfigIsAllow("AllowDeleteFriend"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                if(friendService.DisconnectFriend(id,user.getId()))
+                {
+                    message.setStatusCode(2000);
+                    message.setErrorMsg("操作成功！");
+                }else {
+                    message.setStatusCode(4000);
+                    message.setErrorMsg("操作失败！");
+                }
+            }else response.sendRedirect("/index.html");
+        }else{
+            message.setErrorMsg(("已被管理员禁止删除好友功能！"));
+            message.setStatusCode(5100);
+        }
+
+        return message;
+    }
 }
