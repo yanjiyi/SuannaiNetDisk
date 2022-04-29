@@ -115,4 +115,29 @@ public class TaskController {
         }
         return null;
     }
+
+    @RequestMapping(value = "/api/getTaskDeleteUrl")
+    public String getTaskDeleteUrl(@RequestParam("id") int id,HttpSession session,HttpServletResponse response)
+    {
+        if(sysConfigService.ConfigIsAllow("AllowGetTaskDeleteUrl"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                Task task = taskService.queryByID(id);
+                if(task!=null)
+                {
+                    String name = taskTypeService.GetTaskTypeName(task.getTasktype());
+                    if(name=="Download")
+                    {
+                        return "/api/deleteDownloadTask";
+                    }
+
+                    return "/api/deleteTask";
+                }
+            }
+        }
+
+        return "#";
+    }
 }
