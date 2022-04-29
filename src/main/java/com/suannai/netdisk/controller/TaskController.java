@@ -2,6 +2,7 @@ package com.suannai.netdisk.controller;
 
 import com.suannai.netdisk.dao.Message;
 import com.suannai.netdisk.model.Task;
+import com.suannai.netdisk.model.TaskType;
 import com.suannai.netdisk.model.User;
 import com.suannai.netdisk.service.SysConfigService;
 import com.suannai.netdisk.service.TaskService;
@@ -100,5 +101,18 @@ public class TaskController {
         }
 
         return "None";
+    }
+
+    @RequestMapping(value = "/api/listAllTaskType")
+    public List<TaskType> listAllTaskType(HttpSession session,HttpServletResponse response) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AlloListAllTaskType"))
+        {
+            User user = (User) session.getAttribute("user");
+            if(user!=null)
+            {
+                return taskTypeService.queryAll();
+            }else response.sendRedirect("/index.html");
+        }
+        return null;
     }
 }
