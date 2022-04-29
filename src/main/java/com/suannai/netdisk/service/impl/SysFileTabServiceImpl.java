@@ -91,7 +91,7 @@ public class SysFileTabServiceImpl implements SysFileTabService {
 
             sysFileTabMapper.insert(rootFileTab);
 
-            return GetRoot();
+            return sysFileTabMapper.selectByExample(example).get(0);
         }
     }
 

@@ -62,6 +62,7 @@ public class MainSvrServiceImpl implements MainSvrService {
                 ServiceExample findRootExam = new ServiceExample();
                 ServiceExample.Criteria criteria1 = findRootExam.createCriteria();
                 criteria1.andSysfilerecordidEqualTo(rootRecord.getId());
+                criteria1.andUseridEqualTo(user.getId());
 
                 List<Service> services = serviceMapper.selectByExample(findRootExam);
                 if (!services.isEmpty()) {
