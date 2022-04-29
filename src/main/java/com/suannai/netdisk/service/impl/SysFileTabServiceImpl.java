@@ -3,6 +3,7 @@ package com.suannai.netdisk.service.impl;
 import com.suannai.netdisk.mapper.ServiceMapper;
 import com.suannai.netdisk.mapper.SysFileTabMapper;
 import com.suannai.netdisk.model.*;
+import com.suannai.netdisk.service.SysConfigService;
 import com.suannai.netdisk.service.SysFileTabService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,9 @@ public class SysFileTabServiceImpl implements SysFileTabService {
     @Autowired
     SysFileTabMapper sysFileTabMapper;
 
+    @Autowired
+    SysConfigService sysConfigService;
+
     @Override
     public boolean deleteIfUnUse(int RecordID) {
         ServiceExample example = new ServiceExample();
@@ -28,14 +32,19 @@ public class SysFileTabServiceImpl implements SysFileTabService {
         List<Service> services = serviceMapper.selectByExample(example);
         if(services.isEmpty())
         {
-            SysFileTab sysFileTab = sysFileTabMapper.selectByPrimaryKey(RecordID);
-            File file = new File(sysFileTab.getLocation());
-            if(file.delete())
+            if(sysConfigService.ConfigIsAllow("SysFileTabAllowErase"))
             {
-                System.out.println("System Record Delete FileSystem Object : " + sysFileTab.getLocation());
+                SysFileTab sysFileTab = sysFileTabMapper.selectByPrimaryKey(RecordID);
+                File file = new File(sysFileTab.getLocation());
+                if(file.delete())
+                {
+                    System.out.println("System Record Delete FileSystem Object : " + sysFileTab.getLocation());
+                }
+
+                return sysFileTabMapper.deleteByPrimaryKey(RecordID) == 1;
             }
 
-            return sysFileTabMapper.deleteByPrimaryKey(RecordID) == 1;
+            return true;
         }
         return false;
     }
