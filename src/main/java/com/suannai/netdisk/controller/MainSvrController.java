@@ -184,6 +184,77 @@ public class MainSvrController {
         return message;
     }
 
+    @RequestMapping(value = "/api/checkFile")
+    public Message checkFile(@RequestParam("fileHash") String filehash,@RequestParam("fileName") String fileName,HttpSession session,HttpServletResponse response) throws IOException {
+        Message message = new Message();
+        message.setErrorMsg("操作成功！");
+        message.setOperation("上传文件");
+        message.setStatusCode(2000);
+
+
+        if (sysConfigService.ConfigIsAllow("AllowUpload")) {
+            User user = (User) session.getAttribute("user");
+
+            if (user != null) {
+                String currentWorkDir = (String) session.getAttribute("CurWorkDir");
+                if (currentWorkDir == null) {
+                    currentWorkDir = "/";
+                    session.setAttribute("CurWorkDir", currentWorkDir);
+                } else {
+                    if (currentWorkDir.charAt(0) != '/') {
+                        message.setErrorMsg("5500");
+                        message.setErrorMsg("非法工作路径！");
+                        return message;
+                    }
+                }
+
+                //Find Current Work Service
+
+//                        Service currentWorkService = mainSvrService.getUserDirRecord(user,currentWorkDir);
+                Service currentWorkService = (Service) session.getAttribute("curService");
+                if (currentWorkService == null) {
+                    currentWorkService = mainSvrService.getUserDirRecord(user, currentWorkDir);
+                }
+
+                if (currentWorkService != null) {
+                    SysFileTab sysFileTab = sysFileTabService.findByHash(filehash);
+                    if (sysFileTab != null) {
+                        Service service = new Service();
+                        service.setDirmask(false);
+                        service.setParentid(currentWorkService.getId());
+                        service.setSysfilerecordid(sysFileTab.getId());
+                        service.setUploaddate(new Date());
+                        service.setStatus(true);
+                        service.setUserfilename(fileName);
+                        service.setUserid(user.getId());
+
+                        if (mainSvrService.addFile(service)) {
+                            message.setErrorMsg("秒传成功！");
+                            message.setStatusCode(2000);
+                            return message;
+                        } else {
+                            message.setErrorMsg("添加用户记录失败！");
+                            message.setStatusCode(5200);
+                        }
+                    }else{
+                        message.setStatusCode(3300);
+                        message.setErrorMsg("需要上传！");
+                    }
+                }else {
+                    message.setStatusCode(5600);
+                    message.setErrorMsg("无法找当前用户文件夹记录！请检查工作路径是否正确！");
+                    return message;
+                }
+            }else {
+                response.sendRedirect("/index.html");
+            }
+        } else {
+            message.setErrorMsg("已被管理员禁止上传！");
+            message.setStatusCode(5000);
+        }
+
+        return message;
+    }
     @RequestMapping(value = "/api/upload")
     public Message upload(@RequestParam("file") MultipartFile file, @RequestParam("fileHash") String filehash, @RequestParam("isDir") Boolean isDir, @RequestParam("dirName") String dirname,@RequestParam("fileName") String fileName, HttpSession session, HttpServletResponse response) throws IOException {
         Message message = new Message();
