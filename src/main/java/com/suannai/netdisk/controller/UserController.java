@@ -236,7 +236,7 @@ public class UserController {
                             if (uploadPath != null) {
                                 UUID uuid = UUID.randomUUID();
                                 if (!uploadPath.equals("")) {
-                                    File dir = new File(uploadPath + File.separator + user.getUsername() + File.separator + uuid + File.separator + imgFile.getOriginalFilename());
+                                    File dir = new File(uploadPath + File.separator + filehash);
                                     System.out.println("Save To : " + dir.getPath());
                                     if (!dir.exists()) {
                                         dir.mkdirs();
@@ -249,7 +249,7 @@ public class UserController {
                                     uploadFileTab.setFilename(fileName);
                                     uploadFileTab.setFilesize(imgFile.getSize());
                                     uploadFileTab.setInuse(true);
-                                    uploadFileTab.setLocation(uploadPath + File.separator + user.getUsername() + File.separator + uuid + File.separator + imgFile.getOriginalFilename());
+                                    uploadFileTab.setLocation(uploadPath + File.separator + filehash);
                                     uploadFileTab.setRootmask(false);
 
                                     if (sysFileTabService.addRecord(uploadFileTab)) {
