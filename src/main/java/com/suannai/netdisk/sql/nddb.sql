@@ -137,5 +137,7 @@ insert into `sysconfig`(Name,Value) value("AllowDeleteFriend","YES");
 insert into `sysconfig`(Name,Value) value("AlloListAllTaskType","YES");
 insert into `sysconfig`(Name,Value) value("AllowGetUserName","YES");
 insert into `sysconfig`(Name,Value) value("AllowGetTaskDeleteUrl","YES");
+insert into `sysconfig`(Name,Value) value("AllowQueryTask","YES");
+
 
 insert into `sysconfig`(Name,Value) value("uploadPath","/data/netdisk/upload");
