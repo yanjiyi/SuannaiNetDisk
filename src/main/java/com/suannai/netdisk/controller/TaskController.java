@@ -140,4 +140,22 @@ public class TaskController {
 
         return "#";
     }
+
+    @RequestMapping(value = "/api/queryTask")
+    public Task queryTask(@RequestParam("id") int id,HttpSession session,HttpServletResponse response) throws IOException {
+        if(sysConfigService.ConfigIsAllow("AllowQueryTask"))
+        {
+            User user = (User) session.getAttribute("user");
+
+            if(user!=null)
+            {
+                Task task = taskService.queryByID(id);
+                if(task!=null)
+                    return task;
+
+            }else response.sendRedirect("/index.html");
+        }
+
+        return null;
+    }
 }
