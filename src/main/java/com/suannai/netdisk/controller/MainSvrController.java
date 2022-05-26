@@ -463,18 +463,24 @@ public class MainSvrController {
 
         for (Service curTarget : curContext) {
             if (!curTarget.getDirmask()) {
-                FileInputStream fis = new FileInputStream(sysFileTabService.queryByID(curTarget.getSysfilerecordid()).getLocation());
-                BufferedInputStream bis = new BufferedInputStream(fis);
+                if(sysFileTabService.queryByID(curTarget.getSysfilerecordid()).getFilesize()>0)
+                {
+                    FileInputStream fis = new FileInputStream(sysFileTabService.queryByID(curTarget.getSysfilerecordid()).getLocation());
+                    BufferedInputStream bis = new BufferedInputStream(fis);
 
-                zipOutputStream.putNextEntry(new ZipEntry(base + curTarget.getUserfilename()));
-                int len;
-                byte[] buf = new byte[1024];
-                while ((len = bis.read(buf, 0, 1024)) != -1) {
-                    zipOutputStream.write(buf, 0, len);
+                    zipOutputStream.putNextEntry(new ZipEntry(base + curTarget.getUserfilename()));
+                    int len;
+                    byte[] buf = new byte[1024];
+                    while ((len = bis.read(buf, 0, 1024)) != -1) {
+                        zipOutputStream.write(buf, 0, len);
+                    }
+
+                    bis.close();
+                    fis.close();
+                }else {
+                    zipOutputStream.putNextEntry(new ZipEntry(base + curTarget.getUserfilename()));
                 }
 
-                bis.close();
-                fis.close();
             } else {
                 List<Service> dirContext = mainSvrService.getChildren(user, curTarget);
                 if (dirContext.isEmpty()) {
